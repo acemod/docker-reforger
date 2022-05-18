@@ -5,7 +5,7 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
 ## Usage
 
 ### Docker CLI
-    
+
 ```sh
     docker create \
         --name=reforger-server \
