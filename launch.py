@@ -1,7 +1,7 @@
-import os
 import json
-import subprocess
+import os
 import random
+import subprocess
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
