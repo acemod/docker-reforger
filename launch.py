@@ -24,7 +24,7 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
     steamcmd.extend(["+force_install_dir", "/reforger"])
     if env_defined("STEAM_USER"):
         steamcmd.extend(["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]])
-    else :
+    else:
         steamcmd.extend(["+login", "anonymous"])
     steamcmd.extend(["+app_update", "1874900"])
     if env_defined("STEAM_BRANCH"):
