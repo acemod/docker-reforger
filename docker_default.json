@@ -19,7 +19,12 @@
 			"networkViewDistance": 1000,
 			"disableThirdPerson": true,
 			"fastValidation": true,
-			"battlEye": true
+			"battlEye": true,
+			"missionHeader": {
+				"m_iPlayerCount": 40,
+				"m_eEditableGameFlags": 6,
+				"m_eDefaultGameFlags": 6
+			}
 		},
 		"mods": []
 	}
