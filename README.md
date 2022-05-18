@@ -14,7 +14,7 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
         -v path/to/profiles:/home/profile \
         -e SERVER_REGION="EU" \
         -e GAME_NAME=server_name \
-        ghcr.io/brettmayson/arma-reforger:latest
+        ghcr.io/brettmayson/arma-reforger:edge
 ```
 
 If an admin password is not provided, one will be generated and printed to the console. It will be saved in the config and persist between restarts.
