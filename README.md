@@ -12,14 +12,10 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
         -p 2001:2001/udp \
         -v path/to/configs:/reforger/Configs \
         -v path/to/profiles:/home/profile \
-        -e STEAM_USER=username \
-        -e STEAM_PASSWORD=password \
         -e SERVER_REGION="EU" \
         -e GAME_NAME=server_name \
         ghcr.io/brettmayson/arma-reforger:latest
 ```
-
-The Steam account does not need to own Arma Reforger, but must have Steam Guard disabled.
 
 If an admin password is not provided, one will be generated and printed to the console. It will be saved in the config and persist between restarts.
 

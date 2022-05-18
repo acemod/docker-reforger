@@ -22,7 +22,10 @@ def random_passphrase():
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
     steamcmd = ["/steamcmd/steamcmd.sh"]
     steamcmd.extend(["+force_install_dir", "/reforger"])
-    steamcmd.extend(["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]])
+    if env_defined("STEAM_USER"):
+        steamcmd.extend(["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]])
+    else :
+        steamcmd.extend(["+login", "anonymous"])
     steamcmd.extend(["+app_update", "1874900"])
     if env_defined("STEAM_BRANCH"):
         steamcmd.extend(["-beta", os.environ["STEAM_BRANCH"]])
