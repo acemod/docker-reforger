@@ -5,8 +5,10 @@ import subprocess
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
+
 def env_defined(key):
     return key in os.environ and len(os.environ[key]) > 0
+
 
 def random_passphrase():
     password = "'"
@@ -15,6 +17,7 @@ def random_passphrase():
             words = f.readlines()
         password = "-".join(random.sample(words, 3)).replace("\n", "").lower()
     return password
+
 
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
     steamcmd = ["/steamcmd/steamcmd.sh"]
@@ -58,7 +61,7 @@ else:
         config["gameHostRegisterAddress"] = os.environ["SERVER_HOST_REGISTER_ADDRESS"]
     if env_defined("SERVER_HOST_REGISTER_PORT"):
         config["gameHostRegisterPort"] = os.environ["SERVER_HOST_REGISTER_PORT"]
-    
+
     if env_defined("GAME_NAME"):
         config["game"]["name"] = os.environ["GAME_NAME"]
     if env_defined("GAME_PASSWORD"):
@@ -78,11 +81,17 @@ else:
     if env_defined("GAME_PROPS_FAST_VALIDATION"):
         config["game"]["gameProperties"]["fastValidation"] = bool(os.environ["GAME_PROPS_FAST_VALIDATION"])
     if env_defined("GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"):
-        config["game"]["gameProperties"]["serverMaxViewDistance"] = int(os.environ["GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"])
+        config["game"]["gameProperties"]["serverMaxViewDistance"] = int(
+            os.environ["GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"]
+        )
     if env_defined("GAME_PROPS_SERVER_MIN_GRASS_DISTANCE"):
-        config["game"]["gameProperties"]["serverMinGrassDistance"] = int(os.environ["GAME_PROPS_SERVER_MIN_GRASS_DISTANCE"])
+        config["game"]["gameProperties"]["serverMinGrassDistance"] = int(
+            os.environ["GAME_PROPS_SERVER_MIN_GRASS_DISTANCE"]
+        )
     if env_defined("GAME_PROPS_NETWORK_VIEW_DISTANCE"):
-        config["game"]["gameProperties"]["networkViewDistance"] = int(os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"])
+        config["game"]["gameProperties"]["networkViewDistance"] = int(
+            os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
+        )
 
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
