@@ -75,11 +75,17 @@ else:
     if env_defined("GAME_VISIBLE"):
         config["game"]["visible"] = bool(os.environ["GAME_VISIBLE"])
     if env_defined("GAME_PROPS_BATTLEYE"):
-        config["game"]["gameProperties"]["battlEye"] = bool(os.environ["GAME_PROPS_BATTLEYE"])
+        config["game"]["gameProperties"]["battlEye"] = bool(
+            os.environ["GAME_PROPS_BATTLEYE"]
+        )
     if env_defined("GAME_PROPS_DISABLE_THIRD_PERSON"):
-        config["game"]["gameProperties"]["disableThirdPerson"] = bool(os.environ["GAME_PROPS_DISABLE_THIRD_PERSON"])
+        config["game"]["gameProperties"]["disableThirdPerson"] = bool(
+            os.environ["GAME_PROPS_DISABLE_THIRD_PERSON"]
+        )
     if env_defined("GAME_PROPS_FAST_VALIDATION"):
-        config["game"]["gameProperties"]["fastValidation"] = bool(os.environ["GAME_PROPS_FAST_VALIDATION"])
+        config["game"]["gameProperties"]["fastValidation"] = bool(
+            os.environ["GAME_PROPS_FAST_VALIDATION"]
+        )
     if env_defined("GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"):
         config["game"]["gameProperties"]["serverMaxViewDistance"] = int(
             os.environ["GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"]
