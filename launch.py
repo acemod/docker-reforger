@@ -61,7 +61,7 @@ else:
     if env_defined("SERVER_HOST_BIND_PORT"):
         config["gameHostBindPort"] = int(os.environ["SERVER_HOST_BIND_PORT"])
     if env_defined("SERVER_HOST_REGISTER_ADDRESS"):
-        config["gameHostRegisterAddress"] = os.environ["SERVER_HOST_REGISTER_ADDRESS"]
+        config["gameHostRegisterBindAddress"] = os.environ["SERVER_HOST_REGISTER_ADDRESS"]
     if env_defined("SERVER_HOST_REGISTER_PORT"):
         config["gameHostRegisterPort"] = int(os.environ["SERVER_HOST_REGISTER_PORT"])
 
