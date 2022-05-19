@@ -18,7 +18,7 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
         ghcr.io/brettmayson/arma-reforger:edge
 ```
 
-If an admin password is not provided, one will be generated and printed to the console. It will be saved in the config and persist between restarts.
+If an admin password is not provided, one will be generated and printed to the console.
 
 ## Parameters
 
