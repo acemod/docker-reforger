@@ -19,6 +19,10 @@ def random_passphrase():
     return password
 
 
+def bool_str(text):
+    return text.lower() == "true"
+
+
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
     steamcmd = ["/steamcmd/steamcmd.sh"]
     steamcmd.extend(["+force_install_dir", "/reforger"])
@@ -74,19 +78,19 @@ else:
     if env_defined("GAME_PLAYER_LIMIT"):
         config["game"]["playerCountLimit"] = int(os.environ["GAME_PLAYER_LIMIT"])
     if env_defined("GAME_AUTO_JOINABLE"):
-        config["game"]["autoJoinable"] = bool(os.environ["GAME_AUTO_JOINABLE"])
+        config["game"]["autoJoinable"] = bool_str(os.environ["GAME_AUTO_JOINABLE"])
     if env_defined("GAME_VISIBLE"):
-        config["game"]["visible"] = bool(os.environ["GAME_VISIBLE"])
+        config["game"]["visible"] = bool_str(os.environ["GAME_VISIBLE"])
     if env_defined("GAME_PROPS_BATTLEYE"):
-        config["game"]["gameProperties"]["battlEye"] = bool(
+        config["game"]["gameProperties"]["battlEye"] = bool_str(
             os.environ["GAME_PROPS_BATTLEYE"]
         )
     if env_defined("GAME_PROPS_DISABLE_THIRD_PERSON"):
-        config["game"]["gameProperties"]["disableThirdPerson"] = bool(
+        config["game"]["gameProperties"]["disableThirdPerson"] = bool_str(
             os.environ["GAME_PROPS_DISABLE_THIRD_PERSON"]
         )
     if env_defined("GAME_PROPS_FAST_VALIDATION"):
-        config["game"]["gameProperties"]["fastValidation"] = bool(
+        config["game"]["gameProperties"]["fastValidation"] = bool_str(
             os.environ["GAME_PROPS_FAST_VALIDATION"]
         )
     if env_defined("GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"):
