@@ -112,6 +112,6 @@ else:
 
     config_path = CONFIG_GENERATED
 
-launch = f"{os.environ['ARMA_BINARY']} -gproj ./addons/data/ArmaReforger.gproj -config {config_path} -backendlog -nothrow -profile /home/profile"
+launch = f"{os.environ['ARMA_BINARY']} -gproj ./addons/data/ArmaReforger.gproj -config {config_path} -backendlog -nothrow -profile {os.environ['ARMA_PROFILE']} {os.environ['ARMA_PARAMS']}"
 print(launch, flush=True)
 os.system(launch)
