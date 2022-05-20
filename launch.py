@@ -27,7 +27,9 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
     steamcmd = ["/steamcmd/steamcmd.sh"]
     steamcmd.extend(["+force_install_dir", "/reforger"])
     if env_defined("STEAM_USER"):
-        steamcmd.extend(["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]])
+        steamcmd.extend(
+            ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
+        )
     else:
         steamcmd.extend(["+login", "anonymous"])
     steamcmd.extend(["+app_update", "1874900"])
@@ -65,7 +67,9 @@ else:
     if env_defined("SERVER_HOST_BIND_PORT"):
         config["gameHostBindPort"] = int(os.environ["SERVER_HOST_BIND_PORT"])
     if env_defined("SERVER_HOST_REGISTER_ADDRESS"):
-        config["gameHostRegisterBindAddress"] = os.environ["SERVER_HOST_REGISTER_ADDRESS"]
+        config["gameHostRegisterBindAddress"] = os.environ[
+            "SERVER_HOST_REGISTER_ADDRESS"
+        ]
     if env_defined("SERVER_HOST_REGISTER_PORT"):
         config["gameHostRegisterPort"] = int(os.environ["SERVER_HOST_REGISTER_PORT"])
 
