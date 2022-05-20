@@ -123,7 +123,7 @@ launch = " ".join(
         "-backendlog",
         "-nothrow",
         f"-profile {os.environ['ARMA_PROFILE']}",
-        os.environ["ARMA_PARAMS"]
+        os.environ["ARMA_PARAMS"],
     ]
 )
 print(launch, flush=True)
