@@ -15,14 +15,14 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
         -e SERVER_REGION="EU" \
         -e SERVER_HOST_REGISTER_ADDRESS = "public ip" \
         -e GAME_NAME="My Docker Reforger Server" \
-        ghcr.io/acemod/arma-reforger:edge
+        ghcr.io/acemod/docker-reforger:edge
 ```
 
 If an admin password is not provided, one will be generated and printed to the console.
 
 ## Parameters
 
-Check the dockerfile, more docs will come later.
+Check the Dockerfile, more docs will come later.
 
 ### Configs
 
