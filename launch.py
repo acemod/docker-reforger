@@ -122,6 +122,7 @@ launch = " ".join(
         f"-config {config_path}",
         "-backendlog",
         "-nothrow",
+        f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
         f"-profile {os.environ['ARMA_PROFILE']}",
         os.environ["ARMA_PARAMS"],
     ]
