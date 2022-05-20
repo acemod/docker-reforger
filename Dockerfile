@@ -1,7 +1,7 @@
 FROM debian:bullseye-slim
 
-LABEL maintainer="Brett - github.com/brettmayson"
-LABEL org.opencontainers.image.source=https://github.com/brettmayson/ArmaReforgerServer
+LABEL maintainer="ACE Team - https://github.com/acemod"
+LABEL org.opencontainers.image.source=https://github.com/acemod/docker-reforger
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
