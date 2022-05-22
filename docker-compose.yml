@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  arma-reforger:
+    build: .
+    image: ghcr.io/acemod/arma-reforger:edge
+    platform: linux/amd64
+    container_name: arma-reforger
+    network_mode: host
+    volumes:
+        - /path/to/configs:/reforger/Configs
+        - /path/to/profile:/home/profile
+    environment:
+      - SERVER_REGION=EU-NL
+      - SERVER_HOST_REGISTER_ADDRESS=public-ip
+      - GAME_NAME=My Docker Reforger Server
