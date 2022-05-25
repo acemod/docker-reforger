@@ -24,8 +24,6 @@ If an admin password is not provided, one will be generated and printed to the c
 
 Simply check-out / copy [the provided docker-compose.yml](docker-compose.yml) and adjust to your personal needs.
 
-If an admin password is not provided, one will be generated and printed to the console.
-
 ## Parameters
 
 Check [the Dockerfile](Dockerfile#L32-L64), more docs will come later.
