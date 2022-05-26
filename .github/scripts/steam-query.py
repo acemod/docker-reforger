@@ -1,6 +1,7 @@
-import a2s
-import time
 import sys
+import time
+
+import a2s
 
 SERVER_ADDRESS = ("127.0.0.1", 17777)
 
