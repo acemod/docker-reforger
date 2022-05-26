@@ -20,9 +20,13 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
 
 If an admin password is not provided, one will be generated and printed to the console.
 
+### Docker-compose
+
+Simply check-out / copy [the provided docker-compose.yml](docker-compose.yml) and adjust to your personal needs.
+
 ## Parameters
 
-Check the Dockerfile, more docs will come later.
+Check [the Dockerfile](Dockerfile#L32-L64), more docs will come later.
 
 ### Configs
 
