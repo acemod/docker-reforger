@@ -59,6 +59,6 @@ jobs:
       - name: Load Image
         run: docker load < image.tar.gz
       - name: Tag Image
-        run: docker tag arma-reforger ${{ prepare.tag }} ghcr.io/{{ github.repository_owner }}/arma-reforger:edge
+        run: docker tag arma-reforger ghcr.io/{{ github.repository_owner }}/arma-reforger:edge
       - name: Push Image
         run: docker push ghcr.io/{{ github.repository_owner }}/arma-reforger:edge
