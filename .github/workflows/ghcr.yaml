@@ -35,7 +35,7 @@ jobs:
     - name: Load Image
       run: docker load < image.tar.gz
     - name: Run Image
-      run: docker run arma-reforger
+      run: docker run -p 17777:17777/udp arma-reforger
     - name: Install python dependencies
       run: python3 -m pip install python-a2s
     - name: Run Test
