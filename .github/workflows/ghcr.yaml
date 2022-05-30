@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    name: Build Image
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -13,14 +14,53 @@ jobs:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Get smart tag
-      id: prepare
-      uses: Surgo/docker-smart-tag-action@v1
+    - name: Build Image
+      run: docker build . -t arma-reforger
+    - name: Save Image
+      run: docker save arma-reforger | gzip > image.tar.gz
+    - uses: actions/upload-artifact@v2
       with:
-        docker_image: arma-reforger
-    - name: Build and push
-      uses: docker/build-push-action@v2
+        name: image
+        path: image.tar.gz
+        if-no-files-found: error
+        retention-days: 7
+
+  test:
+    name: Test Image
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/download-artifact@v2
       with:
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository_owner }}/${{ steps.prepare.outputs.tag }}
+        name: image
+    - name: Load Image
+      run: docker load < image.tar.gz
+    - name: Run Image
+      run: docker run -d -p 17777:17777/udp arma-reforger
+    - name: Install python dependencies
+      run: python3 -m pip install python-a2s
+    - name: Run Test
+      run: python3 ./.github/scripts/steam-query.py
+
+  main_publish:
+    name: Publish Image
+    runs-on: ubuntu-latest
+    needs: [ build, test ]
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Login to GHCR
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/download-artifact@v2
+      with:
+        name: image
+    - name: Load Image
+      run: docker load < image.tar.gz
+    - name: Tag Image
+      run: docker tag arma-reforger ghcr.io/${{ github.repository_owner }}/arma-reforger:edge
+    - name: Push Image
+      run: docker push ghcr.io/${{ github.repository_owner }}/arma-reforger:edge
