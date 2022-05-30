@@ -109,6 +109,17 @@ else:
         config["game"]["gameProperties"]["networkViewDistance"] = int(
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
+    if env_defined("GAME_MODS_IDS_LIST"):  # This will overwrite mods from GAME_MODS_JSON_FILE
+        config["game"]["mods"] = []
+        mod_ids = os.environ["GAME_MODS_IDS_LIST"].split(",")
+        for mod in mod_ids:
+            config["game"]["mods"].append({
+                "modId": mod,
+                "name": "",
+            })
+    if env_defined("GAME_MODS_JSON_FILE"):  # This will overwrite mods from GAME_MODS_IDS_LIST
+        with open(os.environ["GAME_MODS_JSON_FILE"]) as f:
+            config["game"]["mods"] = json.load(f)
 
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
