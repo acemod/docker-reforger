@@ -111,13 +111,7 @@ else:
         config["game"]["gameProperties"]["networkViewDistance"] = int(
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
-    if env_defined("GAME_MODS_IDS_LIST") and env_defined("GAME_MODS_JSON"):
-        print(
-            "Mutually exclusive parameters specified - GAME_MODS_IDS_LIST and GAME_MODS_JSON, please remove one"
-        )
-        sys.exit(1)
     if env_defined("GAME_MODS_IDS_LIST"):
-        config["game"]["mods"] = []
         reg = re.compile("^[A-Z0-9,]+$")
         if not reg.match(str(os.environ["GAME_MODS_IDS_LIST"])):
             print("Illegal characters in GAME_MODS_IDS_LIST env")
@@ -132,7 +126,9 @@ else:
             )
     if env_defined("GAME_MODS_JSON_FILE_PATH"):
         with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
-            config["game"]["mods"] = json.load(f)
+            json_mods = json.load(f)
+            for mod in json_mods:
+                config["game"]["mods"].append(mod)
 
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
