@@ -112,7 +112,9 @@ else:
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
     if env_defined("GAME_MODS_IDS_LIST") and env_defined("GAME_MODS_JSON"):
-        print("Mutually exclusive parameters specified - GAME_MODS_IDS_LIST and GAME_MODS_JSON, please remove one")
+        print(
+            "Mutually exclusive parameters specified - GAME_MODS_IDS_LIST and GAME_MODS_JSON, please remove one"
+        )
         sys.exit(1)
     if env_defined("GAME_MODS_IDS_LIST"):
         config["game"]["mods"] = []
@@ -122,10 +124,12 @@ else:
             sys.exit(1)
         mod_ids = os.environ["GAME_MODS_IDS_LIST"].split(",")
         for mod in mod_ids:
-            config["game"]["mods"].append({
-                "modId": mod,
-                "name": "",
-            })
+            config["game"]["mods"].append(
+                {
+                    "modId": mod,
+                    "name": "",
+                }
+            )
     if env_defined("GAME_MODS_JSON_FILE_PATH"):
         with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
             config["game"]["mods"] = json.load(f)
