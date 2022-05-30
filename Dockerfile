@@ -41,6 +41,7 @@ ENV ARMA_PROFILE=/home/profile
 ENV ARMA_BINARY="./ArmaReforgerServer"
 ENV ARMA_PARAMS=""
 ENV ARMA_MAX_FPS=120
+ENV ARMA_WORKSHOP_DIR=/reforger/workshop
 
 ENV SERVER_REGION="EU"
 ENV SERVER_ID=""
@@ -72,6 +73,7 @@ WORKDIR /reforger
 VOLUME /steamcmd
 VOLUME /home/profile
 VOLUME /reforger/Configs
+VOLUME /reforger/workshop
 
 EXPOSE 2001/udp
 EXPOSE 17777/udp

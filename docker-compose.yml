@@ -10,6 +10,7 @@ services:
     volumes:
       - ./reforger/configs:/reforger/Configs
       - ./reforger/profile:/home/profile
+      - ./reforger/workshop:/reforger/workshop
     environment:
       - SERVER_REGION=EU  # or other ISO 3166-1 alpha-2 code
       - SERVER_HOST_REGISTER_ADDRESS=public-ip

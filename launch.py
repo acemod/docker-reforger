@@ -144,6 +144,7 @@ launch = " ".join(
         "-nothrow",
         f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
         f"-profile {os.environ['ARMA_PROFILE']}",
+        f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}"
         os.environ["ARMA_PARAMS"],
     ]
 )
