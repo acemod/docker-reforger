@@ -1,7 +1,9 @@
 import json
 import os
 import random
+import re
 import subprocess
+import sys
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
@@ -109,16 +111,23 @@ else:
         config["game"]["gameProperties"]["networkViewDistance"] = int(
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
+    if env_defined("GAME_MODS_IDS_LIST") and env_defined("GAME_MODS_JSON"):
+        print("Mutually exclusive parameters specified - GAME_MODS_IDS_LIST and GAME_MODS_JSON, please remove one")
+        sys.exit(1)
     if env_defined("GAME_MODS_IDS_LIST"):
         config["game"]["mods"] = []
+        reg = re.compile("^[A-Z0-9,]+$")
+        if not reg.match(str(os.environ["GAME_MODS_IDS_LIST"])):
+            print("Illegal characters in GAME_MODS_IDS_LIST env")
+            sys.exit(1)
         mod_ids = os.environ["GAME_MODS_IDS_LIST"].split(",")
         for mod in mod_ids:
             config["game"]["mods"].append({
                 "modId": mod,
                 "name": "",
             })
-    if env_defined("GAME_MODS_JSON_FILE"):  # This will overwrite mods from GAME_MODS_IDS_LIST
-        with open(os.environ["GAME_MODS_JSON_FILE"]) as f:
+    if env_defined("GAME_MODS_JSON_FILE_PATH"):
+        with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
             config["game"]["mods"] = json.load(f)
 
     f = open(CONFIG_GENERATED, "w")
