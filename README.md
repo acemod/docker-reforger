@@ -34,3 +34,24 @@ Check [the Dockerfile](Dockerfile#L32-L67), more docs will come later.
 By default the configs are generated from the ENV variables in the dockerfile. After the first run the file can be expanded with additional options manually, but the fields will always be overwritten by the ENV variables.
 
 Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Configs` volume. It will be used without modification.
+
+### Mods
+
+Workshop mods can be defined in two ways. You can use both or either of those.
+- via GAME_MODS_IDS_LIST variable as a comma separated list of IDs, with an optional version, for example
+```sh
+-e GAME_MODS_IDS_LIST="5965770215E93269=1.0.6,5965550F24A0C152"
+```
+- via GAME_MODS_JSON_FILE_PATH variable, as a JSON file that contains array of mod objects, for example
+```sh
+-v ${PWD}/mods_file.json:/mods_file.json
+-e GAME_MODS_JSON_FILE_PATH="/mods_file.json" 
+```
+```json
+[
+  {
+    "modId": "597706449575D90B",
+    "version": "1.1.1"
+  }
+]
+```
