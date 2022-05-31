@@ -111,13 +111,13 @@ else:
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
     if env_defined("GAME_MODS_IDS_LIST"):
-        reg = re.compile("^[A-Z0-9,=.]+$")
+        reg = re.compile(r"^[A-Z\d,=.]+$")
         assert reg.match(
             str(os.environ["GAME_MODS_IDS_LIST"])
         ), "Illegal characters in GAME_MODS_IDS_LIST env"
         mods = str(os.environ["GAME_MODS_IDS_LIST"]).split(",")
         mods[:] = [mod for mod in mods if mod]  # Remove empty items form list
-        reg = re.compile("^\d\.\d\.\d$")
+        reg = re.compile(r"^\d\.\d\.\d$")
         for mod in mods:
             mod_details = mod.split("=")
             assert 0 < len(mod_details) < 3, f"{mod} mod not defined properly"
@@ -149,6 +149,7 @@ launch = " ".join(
         f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
         f"-profile {os.environ['ARMA_PROFILE']}",
         f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}",
+        f"-addonsDir {os.environ['ARMA_WORKSHOP_DIR']}",
         os.environ["ARMA_PARAMS"],
     ]
 )
