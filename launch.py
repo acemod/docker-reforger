@@ -113,22 +113,16 @@ else:
         )
     if env_defined("GAME_MODS_IDS_LIST"):
         reg = re.compile("^[A-Z0-9,=.]+$")
-        if not reg.match(str(os.environ["GAME_MODS_IDS_LIST"])):
-            print("Illegal characters in GAME_MODS_IDS_LIST env")
-            sys.exit(1)
+        assert reg.match(str(os.environ["GAME_MODS_IDS_LIST"])), "Illegal characters in GAME_MODS_IDS_LIST env"
         mods = str(os.environ["GAME_MODS_IDS_LIST"]).split(",")
         mods[:] = [mod for mod in mods if mod]  # Remove empty items form list
+        reg = re.compile("^\d\.\d\.\d$")
         for mod in mods:
             mod_details = mod.split("=")
             assert 0 < len(mod_details) < 3, f"{mod} mod not defined properly"
             mod_config = {"modId": mod_details[0]}
             if len(mod_details) == 2:
-                reg = re.compile("^\d\.\d\.\d$")
-                if not reg.match(mod_details[1]):
-                    print(
-                        f"Mod version of '{mod_details[0]}' does not match the version pattern"
-                    )
-                    sys.exit(1)
+                assert reg.match(mod_details[1]), f"{mod} mod version does not match the pattern"
                 mod_config["version"] = mod_details[1]
             config["game"]["mods"].append(mod_config)
     if env_defined("GAME_MODS_JSON_FILE_PATH"):
