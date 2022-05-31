@@ -112,18 +112,25 @@ else:
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
     if env_defined("GAME_MODS_IDS_LIST"):
-        reg = re.compile("^[A-Z0-9,]+$")
+        reg = re.compile("^[A-Z0-9,=.]+$")
         if not reg.match(str(os.environ["GAME_MODS_IDS_LIST"])):
             print("Illegal characters in GAME_MODS_IDS_LIST env")
             sys.exit(1)
-        mod_ids = os.environ["GAME_MODS_IDS_LIST"].split(",")
-        for mod in mod_ids:
-            config["game"]["mods"].append(
-                {
-                    "modId": mod,
-                    "name": "",
-                }
-            )
+        mods = str(os.environ["GAME_MODS_IDS_LIST"]).split(",")
+        mods[:] = [mod for mod in mods if mod]  # Remove empty items form list
+        for mod in mods:
+            mod_details = mod.split("=")
+            assert 0 < len(mod_details) < 3, f"{mod} mod not defined properly"
+            mod_config = {"modId": mod_details[0]}
+            if len(mod_details) == 2:
+                reg = re.compile("^\d\.\d\.\d$")
+                if not reg.match(mod_details[1]):
+                    print(
+                        f"Mod version of '{mod_details[0]}' does not match the version pattern"
+                    )
+                    sys.exit(1)
+                mod_config["version"] = mod_details[1]
+            config["game"]["mods"].append(mod_config)
     if env_defined("GAME_MODS_JSON_FILE_PATH"):
         with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
             json_mods = json.load(f)
@@ -144,7 +151,7 @@ launch = " ".join(
         "-nothrow",
         f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
         f"-profile {os.environ['ARMA_PROFILE']}",
-        f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}"
+        f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}",
         os.environ["ARMA_PARAMS"],
     ]
 )
