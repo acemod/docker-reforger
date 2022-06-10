@@ -38,15 +38,24 @@ Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Confi
 ### Mods
 
 Workshop mods can be defined in two ways. You can use both or either of those.
-- via GAME_MODS_IDS_LIST variable as a comma separated list of IDs, with an optional version, for example
+
+#### GAME_MODS_IDS_LIST
+
+a comma separated list of IDs, with an optional version, for example
+
 ```sh
 -e GAME_MODS_IDS_LIST="5965770215E93269=1.0.6,5965550F24A0C152"
 ```
-- via GAME_MODS_JSON_FILE_PATH variable, as a JSON file that contains array of mod objects, for example
+
+#### GAME_MODS_JSON_FILE_PATH
+
+path to a JSON file that contains array of mod objects, for example
+
 ```sh
 -v ${PWD}/mods_file.json:/mods_file.json
 -e GAME_MODS_JSON_FILE_PATH="/mods_file.json" 
 ```
+
 ```json
 [
   {
