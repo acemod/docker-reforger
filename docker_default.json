@@ -6,6 +6,7 @@
 	"gameHostBindPort": 2001,
 	"gameHostRegisterBindAddress": "",
 	"gameHostRegisterPort": 2001,
+	"a2sQueryEnabled": true,
 	"game": {
 		"name": "Arma Reforger Docker Server",
 		"password": "",
