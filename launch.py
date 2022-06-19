@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import re
 import subprocess
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
@@ -109,6 +110,29 @@ else:
         config["game"]["gameProperties"]["networkViewDistance"] = int(
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
+    if env_defined("GAME_MODS_IDS_LIST"):
+        reg = re.compile(r"^[A-Z\d,=.]+$")
+        assert reg.match(
+            str(os.environ["GAME_MODS_IDS_LIST"])
+        ), "Illegal characters in GAME_MODS_IDS_LIST env"
+        mods = str(os.environ["GAME_MODS_IDS_LIST"]).split(",")
+        mods[:] = [mod for mod in mods if mod]  # Remove empty items form list
+        reg = re.compile(r"^\d\.\d\.\d$")
+        for mod in mods:
+            mod_details = mod.split("=")
+            assert 0 < len(mod_details) < 3, f"{mod} mod not defined properly"
+            mod_config = {"modId": mod_details[0]}
+            if len(mod_details) == 2:
+                assert reg.match(
+                    mod_details[1]
+                ), f"{mod} mod version does not match the pattern"
+                mod_config["version"] = mod_details[1]
+            config["game"]["mods"].append(mod_config)
+    if env_defined("GAME_MODS_JSON_FILE_PATH"):
+        with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
+            json_mods = json.load(f)
+            for mod in json_mods:
+                config["game"]["mods"].append(mod)
 
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
@@ -124,6 +148,8 @@ launch = " ".join(
         "-nothrow",
         f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
         f"-profile {os.environ['ARMA_PROFILE']}",
+        f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}",
+        f"-addonsDir {os.environ['ARMA_WORKSHOP_DIR']}",
         os.environ["ARMA_PARAMS"],
     ]
 )
