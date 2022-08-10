@@ -85,6 +85,8 @@ else:
         config["game"]["autoJoinable"] = bool_str(os.environ["GAME_AUTO_JOINABLE"])
     if env_defined("GAME_VISIBLE"):
         config["game"]["visible"] = bool_str(os.environ["GAME_VISIBLE"])
+    if env_defined("GAME_SUPPORTED_GAME_CLIENT_TYPES"):
+        config["game"]["supportedGameClientTypes"] = os.environ["GAME_SUPPORTED_GAME_CLIENT_TYPES"].split(',')
     if env_defined("GAME_PROPS_BATTLEYE"):
         config["game"]["gameProperties"]["battlEye"] = bool_str(
             os.environ["GAME_PROPS_BATTLEYE"]
