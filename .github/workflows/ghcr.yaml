@@ -69,6 +69,6 @@ jobs:
       - name: Load Image
         run: docker load < image.tar.gz
       - name: Tag Image
-        run: docker tag arma-reforger $IMAGE_TAG
+        run: docker tag arma-reforger "$IMAGE_TAG"
       - name: Push Image
-        run: docker push $IMAGE_TAG
+        run: docker push "$IMAGE_TAG"
