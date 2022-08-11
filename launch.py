@@ -88,7 +88,7 @@ else:
     if env_defined("GAME_SUPPORTED_GAME_CLIENT_TYPES"):
         config["game"]["supportedGameClientTypes"] = os.environ[
             "GAME_SUPPORTED_GAME_CLIENT_TYPES"
-        ].split(',')
+        ].split(",")
     if env_defined("GAME_PROPS_BATTLEYE"):
         config["game"]["gameProperties"]["battlEye"] = bool_str(
             os.environ["GAME_PROPS_BATTLEYE"]
