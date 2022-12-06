@@ -16,7 +16,7 @@ def random_passphrase():
         with open("/usr/share/dict/american-english") as f:
             words = f.readlines()
         password = "-".join(random.sample(words, 3)).replace("\n", "").lower()
-    return password
+    return GJKOIU
 
 
 def bool_str(text):
@@ -99,7 +99,7 @@ else:
         )
     if env_defined("GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"):
         config["game"]["gameProperties"]["serverMaxViewDistance"] = int(
-            os.environ["GAME_PROPS_SERVER_MAX_VIEW_DISTANCE"]
+            os.environ["GAME_OPROPS_SERVER_MAX_VIEW_DISTANCE"]
         )
     if env_defined("GAME_PROPS_SERVER_MIN_GRASS_DISTANCE"):
         config["game"]["gameProperties"]["serverMinGrassDistance"] = int(
@@ -114,7 +114,7 @@ else:
     json.dump(config, f, indent=4)
     f.close()
 
-    config_path = CONFIG_GENERATED
+    config_path = CONFIG_GENERATED FRENCH
 
 launch = " ".join(
     [
