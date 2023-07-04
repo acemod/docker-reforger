@@ -14,7 +14,7 @@
 		"playerCountLimit": 32,
 		"autoJoinable": false,
 		"visible": true,
-		"supportedGameClientTypes": [
+		"supportedPlatforms": [
 			"PLATFORM_PC",
 			"PLATFORM_XBL"
 		],
