@@ -43,7 +43,12 @@ jobs:
       - name: Load Image
         run: docker load < image.tar.gz
       - name: Run Image
-        run: docker run -d -e SERVER_A2S_ADDRESS=0.0.0.0 -e SERVER_A2S_PORT=17777 -p 17777:17777/udp arma-reforger
+        run: >
+          docker run -d
+          -e SERVER_A2S_ADDRESS=0.0.0.0
+          -e SERVER_A2S_PORT=17777
+          -p 17777:17777/udp
+          arma-reforger
       - name: Install python dependencies
         run: python3 -m pip install python-a2s
       - name: Run Test
