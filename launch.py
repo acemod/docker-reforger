@@ -57,15 +57,13 @@ else:
     if env_defined("SERVER_BIND_PORT"):
         config["bindPort"] = int(os.environ["SERVER_BIND_PORT"])
     if env_defined("SERVER_PUBLIC_ADDRESS"):
-        config["publicAddress"] = os.environ[
-            "SERVER_PUBLIC_ADDRESS"
-        ]
+        config["publicAddress"] = os.environ["SERVER_PUBLIC_ADDRESS"]
     if env_defined("SERVER_PUBLIC_PORT"):
         config["publicPort"] = int(os.environ["SERVER_PUBLIC_PORT"])
     if env_defined("SERVER_A2S_ADDRESS") and env_defined("SERVER_A2S_PORT"):
         config["a2s"] = {
             "address": os.environ["SERVER_A2S_ADDRESS"],
-            "port": int(os.environ["SERVER_A2S_PORT"])
+            "port": int(os.environ["SERVER_A2S_PORT"]),
         }
     else:
         config["a2s"] = None
