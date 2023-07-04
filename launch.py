@@ -52,8 +52,6 @@ else:
         config = json.load(f)
         f.close()
 
-    if env_defined("SERVER_REGION"):
-        config["region"] = os.environ["SERVER_REGION"]
     if env_defined("SERVER_BIND_ADDRESS"):
         config["bindAddress"] = os.environ["SERVER_BIND_ADDRESS"]
     if env_defined("SERVER_BIND_PORT"):
