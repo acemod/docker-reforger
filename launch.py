@@ -82,8 +82,6 @@ else:
         config["game"]["scenarioId"] = os.environ["GAME_SCENARIO_ID"]
     if env_defined("GAME_MAX_PLAYERS"):
         config["game"]["maxPlayers"] = int(os.environ["GAME_MAX_PLAYERS"])
-    if env_defined("GAME_AUTO_JOINABLE"):
-        config["game"]["autoJoinable"] = bool_str(os.environ["GAME_AUTO_JOINABLE"])
     if env_defined("GAME_VISIBLE"):
         config["game"]["visible"] = bool_str(os.environ["GAME_VISIBLE"])
     if env_defined("GAME_SUPPORTED_PLATFORMS"):
