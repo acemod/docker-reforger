@@ -12,6 +12,5 @@ services:
       - ./reforger/configs:/reforger/Configs
       - ./reforger/profile:/home/profile
     environment:
-      - SERVER_REGION=EU  # or other ISO 3166-1 alpha-2 code
-      - SERVER_HOST_REGISTER_ADDRESS=public-ip
+      - SERVER_PUBLIC_ADDRESS=public-ip
       - GAME_NAME=My Docker Reforger Server
