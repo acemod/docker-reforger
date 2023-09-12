@@ -10,7 +10,6 @@
 		"passwordAdmin": "",
 		"scenarioId": "{ECC61978EDCC2B5A}Missions/23_Campaign.conf",
 		"maxPlayers": 32,
-		"autoJoinable": false,
 		"visible": true,
 		"supportedPlatforms": [
 			"PLATFORM_PC",
