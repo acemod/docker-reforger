@@ -53,39 +53,42 @@ else:
         config = json.load(f)
         f.close()
 
-    if env_defined("SERVER_REGION"):
-        config["region"] = os.environ["SERVER_REGION"]
-    if env_defined("SERVER_ID"):
-        config["dedicatedServerId"] = os.environ["SERVER_ID"]
-    if env_defined("SERVER_ADMIN_PASSWORD"):
-        config["adminPassword"] = os.environ["SERVER_ADMIN_PASSWORD"]
+    if env_defined("SERVER_BIND_ADDRESS"):
+        config["bindAddress"] = os.environ["SERVER_BIND_ADDRESS"]
+    if env_defined("SERVER_BIND_PORT"):
+        config["bindPort"] = int(os.environ["SERVER_BIND_PORT"])
+    if env_defined("SERVER_PUBLIC_ADDRESS"):
+        config["publicAddress"] = os.environ["SERVER_PUBLIC_ADDRESS"]
+    if env_defined("SERVER_PUBLIC_PORT"):
+        config["publicPort"] = int(os.environ["SERVER_PUBLIC_PORT"])
+    if env_defined("SERVER_A2S_ADDRESS") and env_defined("SERVER_A2S_PORT"):
+        config["a2s"] = {
+            "address": os.environ["SERVER_A2S_ADDRESS"],
+            "port": int(os.environ["SERVER_A2S_PORT"]),
+        }
     else:
-        adminPassword = random_passphrase()
-        config["adminPassword"] = adminPassword
-        print(f"Admin password: {adminPassword}")
-    if env_defined("SERVER_HOST_BIND_ADDRESS"):
-        config["gameHostBindAddress"] = os.environ["SERVER_HOST_BIND_ADDRESS"]
-    if env_defined("SERVER_HOST_BIND_PORT"):
-        config["gameHostBindPort"] = int(os.environ["SERVER_HOST_BIND_PORT"])
-    if env_defined("SERVER_HOST_REGISTER_ADDRESS"):
-        config["gameHostRegisterBindAddress"] = os.environ[
-            "SERVER_HOST_REGISTER_ADDRESS"
-        ]
-    if env_defined("SERVER_HOST_REGISTER_PORT"):
-        config["gameHostRegisterPort"] = int(os.environ["SERVER_HOST_REGISTER_PORT"])
+        config["a2s"] = None
 
     if env_defined("GAME_NAME"):
         config["game"]["name"] = os.environ["GAME_NAME"]
     if env_defined("GAME_PASSWORD"):
         config["game"]["password"] = os.environ["GAME_PASSWORD"]
+    if env_defined("GAME_PASSWORD_ADMIN"):
+        config["game"]["passwordAdmin"] = os.environ["GAME_PASSWORD_ADMIN"]
+    else:
+        adminPassword = random_passphrase()
+        config["game"]["passwordAdmin"] = adminPassword
+        print(f"Admin password: {adminPassword}")
     if env_defined("GAME_SCENARIO_ID"):
         config["game"]["scenarioId"] = os.environ["GAME_SCENARIO_ID"]
-    if env_defined("GAME_PLAYER_LIMIT"):
-        config["game"]["playerCountLimit"] = int(os.environ["GAME_PLAYER_LIMIT"])
-    if env_defined("GAME_AUTO_JOINABLE"):
-        config["game"]["autoJoinable"] = bool_str(os.environ["GAME_AUTO_JOINABLE"])
+    if env_defined("GAME_MAX_PLAYERS"):
+        config["game"]["maxPlayers"] = int(os.environ["GAME_MAX_PLAYERS"])
     if env_defined("GAME_VISIBLE"):
         config["game"]["visible"] = bool_str(os.environ["GAME_VISIBLE"])
+    if env_defined("GAME_SUPPORTED_PLATFORMS"):
+        config["game"]["supportedPlatforms"] = os.environ[
+            "GAME_SUPPORTED_PLATFORMS"
+        ].split(",")
     if env_defined("GAME_PROPS_BATTLEYE"):
         config["game"]["gameProperties"]["battlEye"] = bool_str(
             os.environ["GAME_PROPS_BATTLEYE"]

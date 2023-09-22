@@ -1,66 +1,79 @@
+---
 name: Publish Docker
 
-on: [push]
+on:
+  push:
+
+env:
+  IMAGE_TAG: ghcr.io/${{ github.repository_owner }}/arma-reforger:edge
 
 jobs:
   build:
     name: Build Image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1 
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build Image
-      run: docker build . -t arma-reforger
-    - name: Save Image
-      run: docker save arma-reforger | gzip > image.tar.gz
-    - uses: actions/upload-artifact@v2
-      with:
-        name: image
-        path: image.tar.gz
-        if-no-files-found: error
-        retention-days: 7
+      - uses: actions/checkout@master
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Image
+        run: docker build . -t arma-reforger
+      - name: Save Image
+        run: docker save arma-reforger | gzip > image.tar.gz
+      - uses: actions/upload-artifact@v2
+        with:
+          name: image
+          path: image.tar.gz
+          if-no-files-found: error
+          retention-days: 7
 
   test:
     name: Test Image
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs:
+      - build
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/download-artifact@v2
-      with:
-        name: image
-    - name: Load Image
-      run: docker load < image.tar.gz
-    - name: Run Image
-      run: docker run -d -p 17777:17777/udp arma-reforger
-    - name: Install python dependencies
-      run: python3 -m pip install python-a2s
-    - name: Run Test
-      run: python3 ./.github/scripts/steam-query.py
+      - uses: actions/checkout@master
+      - uses: actions/download-artifact@v2
+        with:
+          name: image
+      - name: Load Image
+        run: docker load < image.tar.gz
+      - name: Run Image
+        run: >
+          docker run -d
+          -e SERVER_A2S_ADDRESS=0.0.0.0
+          -e SERVER_A2S_PORT=17777
+          -p 17777:17777/udp
+          arma-reforger
+      - name: Install python dependencies
+        run: python3 -m pip install python-a2s
+      - name: Run Test
+        run: python3 ./.github/scripts/steam-query.py
 
   main_publish:
     name: Publish Image
     runs-on: ubuntu-latest
-    needs: [ build, test ]
+    needs:
+      - build
+      - test
     if: github.ref == 'refs/heads/main'
     steps:
-    - name: Login to GHCR
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/download-artifact@v2
-      with:
-        name: image
-    - name: Load Image
-      run: docker load < image.tar.gz
-    - name: Tag Image
-      run: docker tag arma-reforger ghcr.io/${{ github.repository_owner }}/arma-reforger:edge
-    - name: Push Image
-      run: docker push ghcr.io/${{ github.repository_owner }}/arma-reforger:edge
+      - name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: image
+      - name: Load Image
+        run: docker load < image.tar.gz
+      - name: Tag Image
+        run: docker tag arma-reforger "$IMAGE_TAG"
+      - name: Push Image
+        run: docker push "$IMAGE_TAG"
