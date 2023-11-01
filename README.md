@@ -35,6 +35,10 @@ By default the configs are generated from the ENV variables in the dockerfile. A
 
 Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Configs` volume. It will be used without modification.
 
+### Experimental server
+
+To use the experimental server instead of the regular set `STEAM_APPID` variable to `1890870`.
+
 ### Mods
 
 Workshop mods can be defined in two ways. You can use both or either of those.
