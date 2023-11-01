@@ -33,3 +33,7 @@ Check [the Dockerfile](Dockerfile#L32-L64), more docs will come later.
 By default the configs are generated from the ENV variables in the dockerfile. After the first run the file can be expanded with additional options manually, but the fields will always be overwritten by the ENV variables.
 
 Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Configs` volume. It will be used without modification.
+
+### Experimental server
+
+To use the experimental server instead of the regular set `STEAM_APPID` variable to `1890870`.

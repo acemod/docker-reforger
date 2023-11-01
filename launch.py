@@ -32,7 +32,7 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
         )
     else:
         steamcmd.extend(["+login", "anonymous"])
-    steamcmd.extend(["+app_update", "1874900"])
+    steamcmd.extend(["+app_update", os.environ["STEAM_APPID"]])
     if env_defined("STEAM_BRANCH"):
         steamcmd.extend(["-beta", os.environ["STEAM_BRANCH"]])
     if env_defined("STEAM_BRANCH_PASSWORD"):
