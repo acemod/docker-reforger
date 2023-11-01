@@ -135,10 +135,16 @@ else:
         with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
             json_mods = json.load(f)
             allowed_keys = ["modId", "name", "version"]
-            for mod in json_mods:
-                assert "modId" in mod, f"Entry in GAME_MODS_JSON_FILE_PATH file does not contain modId: {mod}"
-                mod = {key: mod[key] for key in allowed_keys if key in mod}  # Extract only valid config keys
-                config["game"]["mods"].append(mod)
+            for provided_mod in json_mods:
+                assert (
+                    "modId" in provided_mod
+                ), f"Entry in GAME_MODS_JSON_FILE_PATH file does not contain modId: {provided_mod}"
+                valid_mod = {
+                    key: provided_mod[key]
+                    for key in allowed_keys
+                    if key in provided_mod
+                }  # Extract only valid config keys
+                config["game"]["mods"].append(valid_mod)
 
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
