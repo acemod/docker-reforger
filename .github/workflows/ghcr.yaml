@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  IMAGE_TAG: ghcr.io/${{ github.repository_owner }}/arma-reforger:edge
+  IMAGE_TAG: ghcr.io/${{ github.repository_owner }}/arma-reforger:latest
 
 jobs:
   build:
