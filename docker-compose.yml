@@ -11,6 +11,7 @@ services:
     volumes:
       - ./reforger/configs:/reforger/Configs
       - ./reforger/profile:/home/profile
+      - ./reforger/workshop:/reforger/workshop
     environment:
       - SERVER_PUBLIC_ADDRESS=public-ip
       - GAME_NAME=My Docker Reforger Server

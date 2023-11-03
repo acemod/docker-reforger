@@ -12,6 +12,7 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
         -p 2001:2001/udp \
         -v path/to/configs:/reforger/Configs \
         -v path/to/profiles:/home/profile \
+        -v path/to/workshop:/reforger/workshop \
         -e SERVER_REGION="EU" \
         -e SERVER_HOST_REGISTER_ADDRESS="public ip" \
         -e GAME_NAME="My Docker Reforger Server" \
@@ -26,7 +27,7 @@ Simply check-out / copy [the provided docker-compose.yml](docker-compose.yml) an
 
 ## Parameters
 
-Check [the Dockerfile](Dockerfile#L32-L64), more docs will come later.
+Check [the Dockerfile](Dockerfile#L32-L67), more docs will come later.
 
 ### Configs
 
@@ -37,3 +38,33 @@ Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Confi
 ### Experimental server
 
 To use the experimental server instead of the regular set `STEAM_APPID` variable to `1890870`.
+
+### Mods
+
+Workshop mods can be defined in two ways. You can use both or either of those.
+
+#### GAME_MODS_IDS_LIST
+
+A comma separated list of IDs, with an optional version.
+
+```sh
+-e GAME_MODS_IDS_LIST="5965770215E93269=1.0.6,5965550F24A0C152"
+```
+
+#### GAME_MODS_JSON_FILE_PATH
+
+Path to a JSON file that contains array of mod objects.
+
+```sh
+-v ${PWD}/mods_file.json:/mods_file.json
+-e GAME_MODS_JSON_FILE_PATH="/mods_file.json" 
+```
+
+```json
+[
+  {
+    "modId": "597706449575D90B",
+    "version": "1.1.1"
+  }
+]
+```
