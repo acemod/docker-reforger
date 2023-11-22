@@ -52,6 +52,8 @@ ENV SERVER_A2S_PORT=""
 ENV GAME_NAME="Arma Reforger Docker Server"
 ENV GAME_PASSWORD=""
 ENV GAME_PASSWORD_ADMIN=""
+# GAME_ADMINS - comma-delimited list of identityIds and/or steamIds
+ENV GAME_ADMINS=""
 ENV GAME_SCENARIO_ID="{ECC61978EDCC2B5A}Missions/23_Campaign.conf"
 ENV GAME_MAX_PLAYERS=32
 ENV GAME_VISIBLE=true
