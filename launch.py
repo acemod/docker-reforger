@@ -16,7 +16,7 @@ def random_passphrase():
     while "'" in password:
         with open("/usr/share/dict/american-english") as f:
             words = f.readlines()
-        password = "-".join(random.sample(words, 3)).replace("\n", "").lower()
+        password = "-".join(random.sample(words, 2)).replace("\n", "").lower()
     return password
 
 
