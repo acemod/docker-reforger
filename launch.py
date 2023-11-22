@@ -113,6 +113,12 @@ else:
         config["game"]["gameProperties"]["networkViewDistance"] = int(
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
+
+    if env_defined("GAME_MODS_IDS_LIST") or env_defined("GAME_MODS_JSON_FILE_PATH"):
+        # Since we want to keep ENVs as a single source of truth
+        # we will regenerate the mod list in case any manual changes were made
+        config["game"]["mods"] = []
+        config_mod_ids = []
     if env_defined("GAME_MODS_IDS_LIST"):
         reg = re.compile(r"^[A-Z\d,=.]+$")
         assert reg.match(
@@ -124,12 +130,16 @@ else:
         for mod in mods:
             mod_details = mod.split("=")
             assert 0 < len(mod_details) < 3, f"{mod} mod not defined properly"
-            mod_config = {"modId": mod_details[0]}
+            mod_id = mod_details[0]
+            if mod_id in config_mod_ids:
+                continue  # modId already defined in config, skipping to avoid duplicates
+            mod_config = {"modId": mod_id}
             if len(mod_details) == 2:
                 assert reg.match(
                     mod_details[1]
                 ), f"{mod} mod version does not match the pattern"
                 mod_config["version"] = mod_details[1]
+            config_mod_ids.append(mod_id)
             config["game"]["mods"].append(mod_config)
     if env_defined("GAME_MODS_JSON_FILE_PATH"):
         with open(os.environ["GAME_MODS_JSON_FILE_PATH"]) as f:
@@ -139,11 +149,14 @@ else:
                 assert (
                     "modId" in provided_mod
                 ), f"Entry in GAME_MODS_JSON_FILE_PATH file does not contain modId: {provided_mod}"
+                if provided_mod["modId"] in config_mod_ids:
+                    continue  # modId already defined in config, skipping to avoid duplicates
                 valid_mod = {
                     key: provided_mod[key]
                     for key in allowed_keys
                     if key in provided_mod
                 }  # Extract only valid config keys
+                config_mod_ids.append(provided_mod["modId"])
                 config["game"]["mods"].append(valid_mod)
 
     f = open(CONFIG_GENERATED, "w")
