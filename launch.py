@@ -83,8 +83,7 @@ else:
         config["game"]["admins"] = []
         admins = str(os.environ["GAME_ADMINS"]).split(",")
         admins[:] = [admin for admin in admins if admin]  # Remove empty items form list
-        for admin in admins:
-            config["game"]["admins"].append(admin)
+        config["game"]["admins"] = admins
     if env_defined("GAME_SCENARIO_ID"):
         config["game"]["scenarioId"] = os.environ["GAME_SCENARIO_ID"]
     if env_defined("GAME_MAX_PLAYERS"):
