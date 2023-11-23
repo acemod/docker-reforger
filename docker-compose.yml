@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   arma-reforger:
-    image: ghcr.io/acemod/arma-reforger:edge
+    image: ghcr.io/acemod/arma-reforger:latest
     platform: linux/amd64
     container_name: arma-reforger
     ports:

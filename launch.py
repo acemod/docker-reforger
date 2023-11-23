@@ -79,6 +79,10 @@ else:
         adminPassword = random_passphrase()
         config["game"]["passwordAdmin"] = adminPassword
         print(f"Admin password: {adminPassword}")
+    if env_defined("GAME_ADMINS"):
+        admins = str(os.environ["GAME_ADMINS"]).split(",")
+        admins[:] = [admin for admin in admins if admin]  # Remove empty items form list
+        config["game"]["admins"] = admins
     if env_defined("GAME_SCENARIO_ID"):
         config["game"]["scenarioId"] = os.environ["GAME_SCENARIO_ID"]
     if env_defined("GAME_MAX_PLAYERS"):

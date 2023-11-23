@@ -8,6 +8,7 @@
 		"name": "Arma Reforger Docker Server",
 		"password": "",
 		"passwordAdmin": "",
+		"admins": [],
 		"scenarioId": "{ECC61978EDCC2B5A}Missions/23_Campaign.conf",
 		"maxPlayers": 32,
 		"visible": true,
