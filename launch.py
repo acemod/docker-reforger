@@ -80,7 +80,6 @@ else:
         config["game"]["passwordAdmin"] = adminPassword
         print(f"Admin password: {adminPassword}")
     if env_defined("GAME_ADMINS"):
-        config["game"]["admins"] = []
         admins = str(os.environ["GAME_ADMINS"]).split(",")
         admins[:] = [admin for admin in admins if admin]  # Remove empty items form list
         config["game"]["admins"] = admins
