@@ -13,8 +13,7 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
         -v path/to/configs:/reforger/Configs \
         -v path/to/profiles:/home/profile \
         -v path/to/workshop:/reforger/workshop \
-        -e SERVER_REGION="EU" \
-        -e SERVER_HOST_REGISTER_ADDRESS="public ip" \
+        -e SERVER_PUBLIC_ADDRESS="public ip" \
         -e GAME_NAME="My Docker Reforger Server" \
         ghcr.io/acemod/arma-reforger:latest
 ```
