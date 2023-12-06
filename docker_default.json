@@ -3,7 +3,10 @@
 	"bindPort": 2001,
 	"publicAddress": "",
 	"publicPort": 2001,
-	"a2s": null,
+	"a2s": {
+		"address": "",
+		"port": 17777
+	},
 	"game": {
 		"name": "Arma Reforger Docker Server",
 		"password": "",
