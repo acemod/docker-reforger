@@ -69,7 +69,7 @@ Path to a JSON file that contains array of mod objects.
 ```
 ### RCON
 
-RCON can be activated by defining the RCON_PASSWORD variable.
+RCON can be activated by defining the `RCON_PASSWORD` variable.
 
 ```sh
 -e RCON_PASSWORD="ExamplePassword123"
