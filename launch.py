@@ -118,11 +118,11 @@ else:
             os.environ["GAME_PROPS_NETWORK_VIEW_DISTANCE"]
         )
 
-    if env_defined("GAME_MODS_IDS_LIST") or env_defined("GAME_MODS_JSON_FILE_PATH"):
-        # Since we want to keep ENVs as a single source of truth
-        # we will regenerate the mod list in case any manual changes were made
-        config["game"]["mods"] = []
-        config_mod_ids = []
+    # Since we want to keep ENVs as a single source of truth
+    # we will regenerate the mod list in case any manual changes were made
+    # also deletes the mod entries when GAME_MODS_IDS_LIST is empty
+    config["game"]["mods"] = []
+    config_mod_ids = []
     if env_defined("GAME_MODS_IDS_LIST"):
         reg = re.compile(r"^[A-Z\d,=.]+$")
         assert reg.match(
