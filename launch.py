@@ -69,6 +69,16 @@ else:
     else:
         config["a2s"] = None
 
+    if env_defined("RCON_ADDRESS") and env_defined("RCON_PORT"):
+        config["rcon"] = {
+            "address": os.environ["RCON_ADDRESS"],
+            "port": int(os.environ["RCON_PORT"]),
+            "password": os.environ["RCON_PASSWORD"],
+            "permission": os.environ["RCON_PERMISSION"],
+        }
+    else:
+        config["rcon"] = None
+
     if env_defined("GAME_NAME"):
         config["game"]["name"] = os.environ["GAME_NAME"]
     if env_defined("GAME_PASSWORD"):

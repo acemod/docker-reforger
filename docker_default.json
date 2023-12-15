@@ -7,6 +7,12 @@
 		"address": "",
 		"port": 17777
 	},
+	"rcon": {
+		"address": "",
+		"port": 19999,
+		"password": "",
+		"permission": ""
+	},
 	"game": {
 		"name": "Arma Reforger Docker Server",
 		"password": "",
