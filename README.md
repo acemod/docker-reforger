@@ -26,7 +26,7 @@ Simply check-out / copy [the provided docker-compose.yml](docker-compose.yml) an
 
 ## Parameters
 
-Check [the Dockerfile](Dockerfile#L32-L67), more docs will come later.
+See [PARAMETERS](PARAMETERS.md) for information on which parameters can be set.
 
 ### Configs
 
