@@ -2,6 +2,7 @@ import json
 import os
 import random
 import re
+import shlex
 import subprocess
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
@@ -179,18 +180,22 @@ else:
 
     config_path = CONFIG_GENERATED
 
-launch = " ".join(
-    [
-        os.environ["ARMA_BINARY"],
-        f"-config {config_path}",
-        "-backendlog",
-        "-nothrow",
-        f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
-        f"-profile {os.environ['ARMA_PROFILE']}",
-        f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}",
-        f"-addonsDir {os.environ['ARMA_WORKSHOP_DIR']}",
-        os.environ["ARMA_PARAMS"],
-    ]
-)
-print(launch, flush=True)
-os.system(launch)
+launch = [
+    os.environ["ARMA_BINARY"],
+    "-config",
+    config_path,
+    "-backendlog",
+    "-nothrow",
+    "-maxFPS",
+    os.environ["ARMA_MAX_FPS"],
+    "-profile",
+    os.environ["ARMA_PROFILE"],
+    "-addonDownloadDir",
+    os.environ["ARMA_WORKSHOP_DIR"],
+    "-addonsDir",
+    os.environ["ARMA_WORKSHOP_DIR"],
+    *shlex.split(os.environ["ARMA_PARAMS"]),
+]
+
+print(" ".join(launch), flush=True)
+subprocess.call(launch)
