@@ -198,4 +198,11 @@ launch = [
 ]
 
 print(" ".join(launch), flush=True)
-subprocess.call(launch)
+
+proc = subprocess.Popen(launch)
+
+try:
+    proc.wait()
+except KeyboardInterrupt:
+    proc.terminate()
+    proc.wait()
