@@ -202,7 +202,11 @@ print(" ".join(launch), flush=True)
 proc = subprocess.Popen(launch)
 
 try:
-    proc.wait()
-except KeyboardInterrupt:
-    proc.terminate()
-    proc.wait()
+    try:
+        proc.wait()
+    except KeyboardInterrupt:
+        proc.terminate()
+        proc.wait()
+except BaseException:
+    proc.kill()
+    raise
