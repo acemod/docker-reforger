@@ -4,6 +4,7 @@ import random
 import re
 import shlex
 import subprocess
+import sys
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
@@ -203,10 +204,10 @@ proc = subprocess.Popen(launch)
 
 try:
     try:
-        proc.wait()
+        sys.exit(proc.wait())
     except KeyboardInterrupt:
         proc.terminate()
-        proc.wait()
+        sys.exit(proc.wait())
 except BaseException:
     proc.kill()
     raise
