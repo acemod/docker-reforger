@@ -202,7 +202,7 @@ launch = [
     *shlex.split(os.environ["ARMA_PARAMS"]),
 ]
 
-print(" ".join(launch), flush=True)
+print(shlex.join(launch), flush=True)
 
 proc = subprocess.Popen(launch)
 
