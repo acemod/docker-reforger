@@ -210,7 +210,7 @@ try:
     try:
         sys.exit(proc.wait())
     except KeyboardInterrupt:
-        proc.terminate()
+        proc.send_signal(signal.SIGINT)
         sys.exit(proc.wait())
 except BaseException:
     proc.kill()
