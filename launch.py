@@ -3,8 +3,12 @@ import os
 import random
 import re
 import shlex
+import signal
 import subprocess
 import sys
+
+# On SIGTERM, raise KeyboardInterrupt instead of exiting abruptly.
+signal.signal(signal.SIGTERM, signal.default_int_handler)
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
