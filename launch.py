@@ -212,6 +212,8 @@ try:
     except KeyboardInterrupt:
         proc.send_signal(signal.SIGINT)
         sys.exit(proc.wait())
+except SystemExit:
+    raise
 except BaseException:
     proc.kill()
     raise
