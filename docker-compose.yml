@@ -12,6 +12,11 @@ services:
       - ./reforger/configs:/reforger/Configs
       - ./reforger/profile:/home/profile
       - ./reforger/workshop:/reforger/workshop
+      - type: bind
+        source: ./mods_file.json
+        target: /mods_file.json
     environment:
-      - SERVER_PUBLIC_ADDRESS=public-ip
-      - GAME_NAME=My Docker Reforger Server
+      - SERVER_PUBLIC_ADDRESS=188.225.27.35
+      - GAME_NAME=[RU][PVE] Киберфронт
+      - RCON_PASSWORD=148023Qwe/
+      - GAME_MODS_JSON_FILE_PATH=/mods_file.json

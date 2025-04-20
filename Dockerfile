@@ -88,5 +88,6 @@ STOPSIGNAL SIGINT
 
 COPY *.py /
 COPY docker_default.json /
+COPY mods_file.json /
 
 CMD ["python3","/launch.py"]
