@@ -18,5 +18,6 @@ services:
     environment:
       - SERVER_PUBLIC_ADDRESS=188.225.27.35
       - GAME_NAME=[RU][PVE] Киберфронт
-      - RCON_PASSWORD=148023Qwe/
+      - RCON_PASSWORD=
+      - GAME_PASSWORD_ADMIN=
       - GAME_MODS_JSON_FILE_PATH=/mods_file.json
