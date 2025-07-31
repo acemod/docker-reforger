@@ -30,7 +30,7 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
         # First login to initialize steamcmd
         steamcmd_init = ["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"]
         subprocess.call(steamcmd_init)
-        
+
         # Install with Windows platform
         steamcmd_win = ["/steamcmd/steamcmd.sh"]
         steamcmd_win.extend(["+force_install_dir", "/reforger"])
@@ -48,7 +48,7 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
             steamcmd_win.extend(["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]])
         steamcmd_win.extend(["validate", "+quit"])
         subprocess.call(steamcmd_win)
-        
+
         # Install with Linux platform
         steamcmd_linux = ["/steamcmd/steamcmd.sh"]
         steamcmd_linux.extend(["+force_install_dir", "/reforger"])
@@ -63,7 +63,9 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
         if env_defined("STEAM_BRANCH"):
             steamcmd_linux.extend(["-beta", os.environ["STEAM_BRANCH"]])
         if env_defined("STEAM_BRANCH_PASSWORD"):
-            steamcmd_linux.extend(["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]])
+            steamcmd_linux.extend(
+                ["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]]
+            )
         steamcmd_linux.extend(["validate", "+quit"])
         subprocess.call(steamcmd_linux)
     else:
