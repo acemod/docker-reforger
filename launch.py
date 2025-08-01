@@ -3,6 +3,7 @@ import os
 import random
 import re
 import subprocess
+from pathlib import Path
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
@@ -24,30 +25,40 @@ def bool_str(text):
     return text.lower() == "true"
 
 
+SENTINEL_WINDOWS_FIX = "/reforger/.windows_fix_done"
+
+# Clear Windows fix sentinel if switching away from experimental appId
+if Path(SENTINEL_WINDOWS_FIX).exists() and os.environ["STEAM_APPID"] != "1890870":
+    Path(SENTINEL_WINDOWS_FIX).unlink()
+
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
     # Special handling for experimental appId 1890870
     if os.environ["STEAM_APPID"] == "1890870":
-        # First login to initialize steamcmd
-        steamcmd_init = ["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"]
-        subprocess.call(steamcmd_init)
+        # We only need the Windows pass once to work around this bug. On subsequent
+        # launches just perform the normal Linux update so we don't waste bandwidth.
+        run_windows_pass = not Path(SENTINEL_WINDOWS_FIX).exists()
 
-        # Install with Windows platform
-        steamcmd_win = ["/steamcmd/steamcmd.sh"]
-        steamcmd_win.extend(["+force_install_dir", "/reforger"])
-        if env_defined("STEAM_USER"):
-            steamcmd_win.extend(
-                ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
-            )
-        else:
-            steamcmd_win.extend(["+login", "anonymous"])
-        steamcmd_win.extend(["+@sSteamCmdForcePlatformType", "windows"])
-        steamcmd_win.extend(["+app_update", os.environ["STEAM_APPID"]])
-        if env_defined("STEAM_BRANCH"):
-            steamcmd_win.extend(["-beta", os.environ["STEAM_BRANCH"]])
-        if env_defined("STEAM_BRANCH_PASSWORD"):
-            steamcmd_win.extend(["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]])
-        steamcmd_win.extend(["validate", "+quit"])
-        subprocess.call(steamcmd_win)
+        subprocess.call(["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"])
+
+        if run_windows_pass:
+            steamcmd_win = ["/steamcmd/steamcmd.sh"]
+            steamcmd_win.extend(["+force_install_dir", "/reforger"])
+            if env_defined("STEAM_USER"):
+                steamcmd_win.extend(
+                    ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
+                )
+            else:
+                steamcmd_win.extend(["+login", "anonymous"])
+            steamcmd_win.extend(["+@sSteamCmdForcePlatformType", "windows"])
+            steamcmd_win.extend(["+app_update", os.environ["STEAM_APPID"]])
+            if env_defined("STEAM_BRANCH"):
+                steamcmd_win.extend(["-beta", os.environ["STEAM_BRANCH"]])
+            if env_defined("STEAM_BRANCH_PASSWORD"):
+                steamcmd_win.extend(
+                    ["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]]
+                )
+            steamcmd_win.extend(["validate", "+quit"])
+            subprocess.call(steamcmd_win)
 
         # Install with Linux platform
         steamcmd_linux = ["/steamcmd/steamcmd.sh"]
