@@ -59,6 +59,7 @@ if os.environ["SKIP_INSTALL"] in ["", "false"]:
                 )
             steamcmd_win.extend(["validate", "+quit"])
             subprocess.call(steamcmd_win)
+            Path(SENTINEL_WINDOWS_FIX).touch()
 
         # Install with Linux platform
         steamcmd_linux = ["/steamcmd/steamcmd.sh"]
