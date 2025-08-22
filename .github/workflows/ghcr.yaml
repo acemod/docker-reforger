@@ -47,6 +47,7 @@ jobs:
           docker run -d
           -e SERVER_A2S_ADDRESS=0.0.0.0
           -e SERVER_A2S_PORT=17777
+          -e RCON_PASSWORD=PipelineTest123
           -p 17777:17777/udp
           arma-reforger
       - name: Install python dependencies
