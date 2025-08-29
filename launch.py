@@ -6,6 +6,7 @@ import shlex
 import signal
 import subprocess
 import sys
+from pathlib import Path
 
 # On SIGTERM, raise KeyboardInterrupt instead of exiting abruptly.
 signal.signal(signal.SIGTERM, signal.default_int_handler)
@@ -30,22 +31,78 @@ def bool_str(text):
     return text.lower() == "true"
 
 
+SENTINEL_WINDOWS_FIX = "/reforger/.windows_fix_done"
+
+# Clear Windows fix sentinel if switching away from experimental appId
+if Path(SENTINEL_WINDOWS_FIX).exists() and os.environ["STEAM_APPID"] != "1890870":
+    Path(SENTINEL_WINDOWS_FIX).unlink()
+
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
-    steamcmd = ["/steamcmd/steamcmd.sh"]
-    steamcmd.extend(["+force_install_dir", "/reforger"])
-    if env_defined("STEAM_USER"):
-        steamcmd.extend(
-            ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
-        )
+    # Special handling for experimental appId 1890870
+    if os.environ["STEAM_APPID"] == "1890870":
+        # We only need the Windows pass once to work around this bug. On subsequent
+        # launches just perform the normal Linux update so we don't waste bandwidth.
+        run_windows_pass = not Path(SENTINEL_WINDOWS_FIX).exists()
+
+        subprocess.call(["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"])
+
+        if run_windows_pass:
+            steamcmd_win = ["/steamcmd/steamcmd.sh"]
+            steamcmd_win.extend(["+force_install_dir", "/reforger"])
+            if env_defined("STEAM_USER"):
+                steamcmd_win.extend(
+                    ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
+                )
+            else:
+                steamcmd_win.extend(["+login", "anonymous"])
+            steamcmd_win.extend(["+@sSteamCmdForcePlatformType", "windows"])
+            steamcmd_win.extend(["+app_update", os.environ["STEAM_APPID"]])
+            if env_defined("STEAM_BRANCH"):
+                steamcmd_win.extend(["-beta", os.environ["STEAM_BRANCH"]])
+            if env_defined("STEAM_BRANCH_PASSWORD"):
+                steamcmd_win.extend(
+                    ["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]]
+                )
+            steamcmd_win.extend(["validate", "+quit"])
+            subprocess.call(steamcmd_win)
+            Path(SENTINEL_WINDOWS_FIX).touch()
+
+        # Install with Linux platform
+        steamcmd_linux = ["/steamcmd/steamcmd.sh"]
+        steamcmd_linux.extend(["+force_install_dir", "/reforger"])
+        if env_defined("STEAM_USER"):
+            steamcmd_linux.extend(
+                ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
+            )
+        else:
+            steamcmd_linux.extend(["+login", "anonymous"])
+        steamcmd_linux.extend(["+@sSteamCmdForcePlatformType", "linux"])
+        steamcmd_linux.extend(["+app_update", os.environ["STEAM_APPID"]])
+        if env_defined("STEAM_BRANCH"):
+            steamcmd_linux.extend(["-beta", os.environ["STEAM_BRANCH"]])
+        if env_defined("STEAM_BRANCH_PASSWORD"):
+            steamcmd_linux.extend(
+                ["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]]
+            )
+        steamcmd_linux.extend(["validate", "+quit"])
+        subprocess.call(steamcmd_linux)
     else:
-        steamcmd.extend(["+login", "anonymous"])
-    steamcmd.extend(["+app_update", os.environ["STEAM_APPID"]])
-    if env_defined("STEAM_BRANCH"):
-        steamcmd.extend(["-beta", os.environ["STEAM_BRANCH"]])
-    if env_defined("STEAM_BRANCH_PASSWORD"):
-        steamcmd.extend(["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]])
-    steamcmd.extend(["validate", "+quit"])
-    subprocess.call(steamcmd)
+        # Standard installation for other appIds
+        steamcmd = ["/steamcmd/steamcmd.sh"]
+        steamcmd.extend(["+force_install_dir", "/reforger"])
+        if env_defined("STEAM_USER"):
+            steamcmd.extend(
+                ["+login", os.environ["STEAM_USER"], os.environ["STEAM_PASSWORD"]]
+            )
+        else:
+            steamcmd.extend(["+login", "anonymous"])
+        steamcmd.extend(["+app_update", os.environ["STEAM_APPID"]])
+        if env_defined("STEAM_BRANCH"):
+            steamcmd.extend(["-beta", os.environ["STEAM_BRANCH"]])
+        if env_defined("STEAM_BRANCH_PASSWORD"):
+            steamcmd.extend(["-betapassword", os.environ["STEAM_BRANCH_PASSWORD"]])
+        steamcmd.extend(["validate", "+quit"])
+        subprocess.call(steamcmd)
 
 if os.environ["ARMA_CONFIG"] != "docker_generated":
     config_path = f"/reforger/Configs/{os.environ['ARMA_CONFIG']}"
