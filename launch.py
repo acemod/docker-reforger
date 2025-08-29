@@ -2,8 +2,14 @@ import json
 import os
 import random
 import re
+import shlex
+import signal
 import subprocess
+import sys
 from pathlib import Path
+
+# On SIGTERM, raise KeyboardInterrupt instead of exiting abruptly.
+signal.signal(signal.SIGTERM, signal.default_int_handler)
 
 CONFIG_GENERATED = "/reforger/Configs/docker_generated.json"
 
@@ -236,18 +242,35 @@ else:
 
     config_path = CONFIG_GENERATED
 
-launch = " ".join(
-    [
-        os.environ["ARMA_BINARY"],
-        f"-config {config_path}",
-        "-backendlog",
-        "-nothrow",
-        f"-maxFPS {os.environ['ARMA_MAX_FPS']}",
-        f"-profile {os.environ['ARMA_PROFILE']}",
-        f"-addonDownloadDir {os.environ['ARMA_WORKSHOP_DIR']}",
-        f"-addonsDir {os.environ['ARMA_WORKSHOP_DIR']}",
-        os.environ["ARMA_PARAMS"],
-    ]
-)
-print(launch, flush=True)
-os.system(launch)
+launch = [
+    os.environ["ARMA_BINARY"],
+    "-config",
+    config_path,
+    "-backendlog",
+    "-nothrow",
+    "-maxFPS",
+    os.environ["ARMA_MAX_FPS"],
+    "-profile",
+    os.environ["ARMA_PROFILE"],
+    "-addonDownloadDir",
+    os.environ["ARMA_WORKSHOP_DIR"],
+    "-addonsDir",
+    os.environ["ARMA_WORKSHOP_DIR"],
+    *shlex.split(os.environ["ARMA_PARAMS"]),
+]
+
+print(shlex.join(launch), flush=True)
+
+proc = subprocess.Popen(launch)
+
+try:
+    try:
+        sys.exit(proc.wait())
+    except KeyboardInterrupt:
+        proc.send_signal(signal.SIGINT)
+        sys.exit(proc.wait())
+except SystemExit:
+    raise
+except BaseException:
+    proc.kill()
+    raise
