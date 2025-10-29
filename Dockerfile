@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:trixie-slim
 
 LABEL maintainer="ACE Team - https://github.com/acemod"
 LABEL org.opencontainers.image.source=https://github.com/acemod/docker-reforger
@@ -7,15 +7,16 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
     && \
     apt-get install -y --no-install-recommends --no-install-suggests \
-        python3 \
-        lib32stdc++6 \
-        lib32gcc-s1 \
-        wget \
         ca-certificates \
+        lib32gcc-s1 \
+        lib32stdc++6 \
+        libterm-readline-perl-perl \
         libcurl4 \
+        libssl3 \
         net-tools \
-        libssl1.1 \
+        python3 \
         wamerican \
+        wget \
     && \
     apt-get remove --purge -y \
     && \
@@ -79,10 +80,11 @@ ENV SKIP_INSTALL=false
 
 WORKDIR /reforger
 
-VOLUME /steamcmd
 VOLUME /home/profile
+VOLUME /reforger
 VOLUME /reforger/Configs
 VOLUME /reforger/workshop
+VOLUME /steamcmd
 
 EXPOSE 2001/udp
 EXPOSE 17777/udp
