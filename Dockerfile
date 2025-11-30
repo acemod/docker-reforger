@@ -7,15 +7,15 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
     && \
     apt-get install -y --no-install-recommends --no-install-suggests \
-        python3 \
-        lib32stdc++6 \
-        lib32gcc-s1 \
-        wget \
         ca-certificates \
+        lib32gcc-s1 \
+        lib32stdc++6 \
         libcurl4 \
-        net-tools \
         libssl1.1 \
+        net-tools \
+        python3 \
         wamerican \
+        wget \
     && \
     apt-get remove --purge -y \
     && \

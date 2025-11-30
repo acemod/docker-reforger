@@ -1,18 +1,18 @@
 ---
+# Example: Single Server with Config Variable Only
 services:
   arma-reforger:
     image: ghcr.io/acemod/arma-reforger:latest
     platform: linux/amd64
     container_name: arma-reforger
+    restart: unless-stopped
     ports:
-      - "2001:2001/udp"
-      - "17777:17777/udp"
-      - "19999:19999/udp"  # RCON
+      - 2001:2001/udp
+      - 17777:17777/udp
+      - 19999:19999/udp  # RCON
     volumes:
       - ./reforger/configs:/reforger/Configs
       - ./reforger/profile:/home/profile
       - ./reforger/workshop:/reforger/workshop
     environment:
-      - SERVER_PUBLIC_ADDRESS=public-ip
-      - GAME_NAME=My Docker Reforger Server
-      - RCON_PASSWORD=ChangeItOrElse!
+      - ARMA_CONFIG=my_custom_server.json

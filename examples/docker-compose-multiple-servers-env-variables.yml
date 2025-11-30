@@ -1,0 +1,43 @@
+---
+# Example: Multiple Servers with Environment Variables
+services:
+  arma-reforger-server1:
+    image: ghcr.io/acemod/arma-reforger:latest
+    platform: linux/amd64
+    container_name: arma-reforger-server1
+    restart: unless-stopped
+    ports:
+      - 2001:2001/udp
+      - 17777:17777/udp
+      - 19999:19999/udp  # RCON
+    volumes:
+      - ./reforger/server1/configs:/reforger/Configs
+      - ./reforger/server1/profile:/home/profile
+      - ./reforger/shared/workshop:/reforger/workshop
+    environment:
+      - SERVER_PUBLIC_ADDRESS=your.public.ip
+      - GAME_NAME=Server 1
+      - RCON_PASSWORD=ChangeMePlz123!
+      - MAX_PLAYERS=64
+      - ADMIN_PASSWORD=NotASafePass!
+
+  arma-reforger-server2:
+    image: ghcr.io/acemod/arma-reforger:latest
+    platform: linux/amd64
+    container_name: arma-reforger-server2
+    restart: unless-stopped
+    ports:
+      - 3001:2001/udp
+      - 27777:17777/udp
+      - 29999:19999/udp  # RCON
+    volumes:
+      - ./reforger/server2/configs:/reforger/Configs
+      - ./reforger/server2/profile:/home/profile
+      - ./reforger/shared/workshop:/reforger/workshop
+    environment:
+      - SERVER_PUBLIC_ADDRESS=your.public.ip
+      - SERVER_PUBLIC_PORT=3001
+      - GAME_NAME=Server 2
+      - RCON_PASSWORD=DontUseThisOne!
+      - MAX_PLAYERS=64
+      - ADMIN_PASSWORD=PickYourOwnPass!
