@@ -248,6 +248,29 @@ else:
                 config_mod_ids.append(provided_mod["modId"])
                 config["game"]["mods"].append(valid_mod)
 
+    # Persistence (only added when at least one persistence ENV is defined)
+    persistence_defined = (
+        env_defined("PERSISTENCE_AUTO_SAVE_INTERVAL")
+        or env_defined("PERSISTENCE_HIVE_ID")
+        or env_defined("PERSISTENCE_JSON_FILE_PATH")
+    )
+    if persistence_defined:
+        persistence = {}
+        if env_defined("PERSISTENCE_AUTO_SAVE_INTERVAL"):
+            persistence["autoSaveInterval"] = int(
+                os.environ["PERSISTENCE_AUTO_SAVE_INTERVAL"]
+            )
+        if env_defined("PERSISTENCE_HIVE_ID"):
+            persistence["hiveId"] = int(os.environ["PERSISTENCE_HIVE_ID"])
+        if env_defined("PERSISTENCE_JSON_FILE_PATH"):
+            with open(os.environ["PERSISTENCE_JSON_FILE_PATH"]) as f:
+                persistence_json = json.load(f)
+                allowed_keys = ["databases", "storages"]
+                for key in allowed_keys:
+                    if key in persistence_json:
+                        persistence[key] = persistence_json[key]
+        config["game"]["gameProperties"]["persistence"] = persistence
+
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
     f.close()

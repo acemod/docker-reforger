@@ -1,0 +1,13 @@
+{
+  "databases": {
+    "default": {
+      "preset": "{2BBBE828EF1B5F39}Configs/Systems/Persistence/Database/JsonFile.conf",
+      "options": {}
+    }
+  },
+  "storages": {
+    "session": {
+      "database": "default"
+    }
+  }
+}

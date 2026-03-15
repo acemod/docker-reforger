@@ -75,6 +75,11 @@ ENV GAME_PROPS_VON_DISABLE_UI=false
 ENV GAME_PROPS_VON_DISABLE_DIRECT_SPEECH_UI=false
 ENV GAME_PROPS_VON_CAN_TRANSMIT_CROSS_FACTION=false
 
+# Persistence (disabled by default - set any to enable)
+ENV PERSISTENCE_AUTO_SAVE_INTERVAL=""
+ENV PERSISTENCE_HIVE_ID=""
+ENV PERSISTENCE_JSON_FILE_PATH=""
+
 ENV SKIP_INSTALL=false
 
 WORKDIR /reforger
@@ -91,5 +96,6 @@ STOPSIGNAL SIGINT
 
 COPY *.py /
 COPY docker_default.json /
+COPY persistence_default.json /
 
 CMD ["python3","/launch.py"]
