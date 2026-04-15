@@ -106,13 +106,19 @@ RCON is activated by defining the `RCON_PASSWORD` variable.
 
 Persistence is **disabled by default** — the system works automatically for most use cases. Set any `PERSISTENCE_*` variable to enable the persistence config section.
 
-**NOTE**: ``-loadSessionSave`` must be enabled in order to load session saves. 
+**NOTE**: `-loadSessionSave` must be enabled in order to load session saves.
 
 | Variable | Default | Description |
 |---|---|---|
 | `PERSISTENCE_AUTO_SAVE_INTERVAL` | *(empty)* | Minutes between auto-saves (0–60). 0 disables auto-save. Server default is 10 |
 | `PERSISTENCE_HIVE_ID` | *(empty)* | Hive identifier (0–16383). Used when multiple servers share a persistence database |
 | `PERSISTENCE_JSON_FILE_PATH` | *(empty)* | Path to a JSON file containing `databases` and/or `storages` objects (see below) |
+
+A default persistence template is bundled in the image at `/persistence_default.json`. To use it:
+
+```sh
+-e PERSISTENCE_JSON_FILE_PATH="/persistence_default.json"
+```
 
 For advanced persistence setups (external databases, custom storages), create a JSON file with `databases` and/or `storages` objects and mount it into the container:
 
@@ -183,4 +189,4 @@ Path to a JSON file that contains array of mod objects.
 ### Documentation
 
 The full Server Configuration can be found [here](https://community.bistudio.com/wiki/Arma_Reforger:Server_Config).  
-The Dockerfile may not include every option that is currently available and may need updated and may require being updated for additional support of features.
+The Dockerfile may not include every option that is currently available and may lag behind upstream for additional feature support.
