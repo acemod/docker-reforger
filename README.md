@@ -47,7 +47,7 @@ Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Confi
 
 | Variable | Default | Description |
 |---|---|---|
-| `ARMA_CONFIG` | `docker_generated` | Config file name (without `.json`). Set to use a custom config from the `Configs` volume without ENV overrides |
+| `ARMA_CONFIG` | `docker_generated` | Config filename (without `.json`). Set to use a custom config from the `Configs` volume without ENV overrides |
 | `ARMA_PROFILE` | `/home/profile` | Server profile directory |
 | `ARMA_BINARY` | `./ArmaReforgerServer` | Path to the server binary |
 | `ARMA_PARAMS` | *(empty)* | Additional command-line parameters (e.g. `-loadSessionSave` to resume a previous session) |
@@ -153,7 +153,7 @@ Example `persistence.json`:
 ```
 
 **Documentation**:
-- [Persistence](https://community.bistudio.com/wiki/Arma_Reforger:Persistence_System) 
+- [Persistence](https://community.bistudio.com/wiki/Arma_Reforger:Persistence_System)
 - [Persistence Server Configuration](https://community.bistudio.com/wiki/Arma_Reforger:Server_Config#persistence)
 
 ### Mods
