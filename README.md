@@ -64,6 +64,7 @@ Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Confi
 
 **NOTE**: The container health check uses the active A2S settings when A2S is enabled. If A2S is disabled, the health check is skipped.
 
+
 ### RCON
 
 RCON is activated by defining the `RCON_PASSWORD` variable.
@@ -244,6 +245,7 @@ pre-commit install
 ```
 
 ### Documentation
+
 
 The full Server Configuration can be found [here](https://community.bistudio.com/wiki/Arma_Reforger:Server_Config).  
 The Dockerfile may not include every option that is currently available and may lag behind upstream for additional feature support.

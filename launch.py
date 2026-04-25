@@ -346,6 +346,7 @@ else:
     if operating:
         config["operating"] = operating
 
+
     f = open(CONFIG_GENERATED, "w")
     json.dump(config, f, indent=4)
     f.close()
