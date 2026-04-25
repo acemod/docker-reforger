@@ -38,13 +38,13 @@ if Path(SENTINEL_WINDOWS_FIX).exists() and os.environ["STEAM_APPID"] != "1890870
     Path(SENTINEL_WINDOWS_FIX).unlink()
 
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
+    subprocess.call(["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"])
+
     # Special handling for experimental appId 1890870
     if os.environ["STEAM_APPID"] == "1890870":
         # We only need the Windows pass once to work around this bug. On subsequent
         # launches just perform the normal Linux update so we don't waste bandwidth.
         run_windows_pass = not Path(SENTINEL_WINDOWS_FIX).exists()
-
-        subprocess.call(["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"])
 
         if run_windows_pass:
             steamcmd_win = ["/steamcmd/steamcmd.sh"]
@@ -130,7 +130,7 @@ else:
             "port": int(os.environ["SERVER_A2S_PORT"]),
         }
     else:
-        config["a2s"] = None
+        config.pop("a2s", None)
 
     if (
         env_defined("RCON_PASSWORD")
@@ -162,7 +162,7 @@ else:
             ]
         config["rcon"] = rcon
     else:
-        config["rcon"] = None
+        config.pop("rcon", None)
 
     if env_defined("GAME_NAME"):
         config["game"]["name"] = os.environ["GAME_NAME"]
