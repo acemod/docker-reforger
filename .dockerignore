@@ -1,0 +1,6 @@
+.git
+.github
+*.md
+.pre-commit-config.yaml
+.hadolint.yaml
+reforger/
