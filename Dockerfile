@@ -1,5 +1,12 @@
 FROM debian:bookworm-slim
 
+ARG REF_USER=reforger
+ARG REF_UID=1000
+ARG REF_GID=1000
+
+RUN groupadd --gid ${REF_GID} ${REF_USER} \
+    && useradd --uid ${REF_UID} --gid ${REF_GID} --shell /bin/bash ${REF_USER}
+
 LABEL maintainer="ACE Team - https://github.com/acemod"
 LABEL org.opencontainers.image.source=https://github.com/acemod/docker-reforger
 
@@ -16,6 +23,7 @@ RUN apt-get update \
         net-tools \
         libssl3 \
         wamerican \
+        gosu \
     && \
     apt-get remove --purge -y \
     && \
@@ -112,9 +120,12 @@ EXPOSE $RCON_PORT/udp
 
 STOPSIGNAL SIGINT
 
+COPY entrypoint.sh /entrypoint.sh
 COPY *.py /
 COPY docker_default.json /
 COPY persistence_default.json /
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 HEALTHCHECK --interval=60s --timeout=10s --start-period=15m --retries=3 \
     CMD python3 /healthcheck.py

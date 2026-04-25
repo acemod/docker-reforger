@@ -65,6 +65,6 @@ try:
     a2s = resolve_a2s_settings()
     if not a2s:
         sys.exit(0)
-    sys.exit(0 if probe_server(a2s["address"], int(a2s["port"])) else 1)
+    sys.exit(0 if probe_server(a2s["address"], a2s["port"]) else 1)
 except Exception:
     sys.exit(1)
