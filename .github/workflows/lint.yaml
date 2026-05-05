@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Lint
-        uses: super-linter/super-linter@9e863354e3ff62e0727d37183162c4a88873df41 # v8.6.0
+        uses: github/super-linter@9e863354e3ff62e0727d37183162c4a88873df41 # v8.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           YAML_ERROR_ON_WARNING: true
