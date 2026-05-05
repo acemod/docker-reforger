@@ -112,12 +112,9 @@ EXPOSE $RCON_PORT/udp
 
 STOPSIGNAL SIGINT
 
-COPY entrypoint.sh /entrypoint.sh
 COPY *.py /
 COPY docker_default.json /
 COPY persistence_default.json /
-
-ENTRYPOINT ["/entrypoint.sh"]
 
 HEALTHCHECK --interval=60s --timeout=10s --start-period=15m --retries=3 \
     CMD python3 /healthcheck.py

@@ -233,19 +233,7 @@ Path to a JSON file that contains array of mod objects.
 ]
 ```
 
-### Development
-
-#### Pre-commit
-
-This project uses [pre-commit](https://pre-commit.com/) to lint the Dockerfile with [hadolint](https://github.com/hadolint/hadolint).
-
-```sh
-pip install pre-commit
-pre-commit install
-```
-
 ### Documentation
-
 
 The full Server Configuration can be found [here](https://community.bistudio.com/wiki/Arma_Reforger:Server_Config).  
 The Dockerfile may not include every option that is currently available and may lag behind upstream for additional feature support.
