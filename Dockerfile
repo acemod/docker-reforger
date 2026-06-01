@@ -109,6 +109,8 @@ VOLUME /home/profile
 VOLUME /reforger/Configs
 VOLUME /reforger/workshop
 
+# These expand to the default ports above at build time. They are documentation
+# only - overriding the ports at runtime still works, it just won't change these.
 EXPOSE $SERVER_BIND_PORT/udp
 EXPOSE $SERVER_A2S_PORT/udp
 EXPOSE $RCON_PORT/udp
@@ -119,6 +121,8 @@ COPY *.py /
 COPY docker_default.json /
 COPY persistence_default.json /
 
+# start-period gives the first SteamCMD install and server boot time to finish
+# before failing checks count against retries. Bump it if your install is slower.
 HEALTHCHECK --interval=60s --timeout=10s --start-period=15m --retries=3 \
     CMD python3 /healthcheck.py
 

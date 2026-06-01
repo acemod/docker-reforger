@@ -64,7 +64,6 @@ Alternatively, change the `ARMA_CONFIG` variable to a file present in the `Confi
 
 **NOTE**: The container health check uses the active A2S settings when A2S is enabled. If A2S is disabled, the health check is skipped.
 
-
 ### RCON
 
 RCON is activated by defining the `RCON_PASSWORD` variable.

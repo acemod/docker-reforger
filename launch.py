@@ -38,6 +38,8 @@ if Path(SENTINEL_WINDOWS_FIX).exists() and os.environ["STEAM_APPID"] != "1890870
     Path(SENTINEL_WINDOWS_FIX).unlink()
 
 if os.environ["SKIP_INSTALL"] in ["", "false"]:
+    # Warm up SteamCMD first. Its initial run self-updates and can exit non-zero,
+    # so we get that out of the way here before the real app_update calls below.
     subprocess.call(["/steamcmd/steamcmd.sh", "+login", "anonymous", "+quit"])
 
     # Special handling for experimental appId 1890870
@@ -361,10 +363,8 @@ else:
     if operating:
         config["operating"] = operating
 
-
-    f = open(CONFIG_GENERATED, "w")
-    json.dump(config, f, indent=4)
-    f.close()
+    with open(CONFIG_GENERATED, "w") as f:
+        json.dump(config, f, indent=4)
 
     config_path = CONFIG_GENERATED
 
