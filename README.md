@@ -120,6 +120,9 @@ Persistence is **disabled by default** — the system works automatically for mo
 | Variable | Default | Description |
 |---|---|---|
 | `PERSISTENCE_AUTO_SAVE_INTERVAL` | *(empty)* | Minutes between auto-saves (0–60). 0 disables auto-save. Server default is 10 |
+| `PERSISTENCE_SAVE_RETENTION` | *(empty)* | Number of save points to keep for the current mission (1–128). Server default is 10 |
+| `PERSISTENCE_LOAD_SESSION_SAVE` | *(empty)* | Automatically load the latest save point on first startup. Server default is `true` |
+| `PERSISTENCE_KEEP_SESSION_SAVE` | *(empty)* | Keep save points after the mission is finished. Server default is `false` |
 | `PERSISTENCE_HIVE_ID` | *(empty)* | Hive identifier (0–16383). Used when multiple servers share a persistence database |
 | `PERSISTENCE_JSON_FILE_PATH` | *(empty)* | Path to a JSON file containing `databases` and/or `storages` objects (see below) |
 

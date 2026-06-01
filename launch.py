@@ -287,6 +287,9 @@ else:
     # Persistence (only added when at least one persistence ENV is defined)
     persistence_defined = (
         env_defined("PERSISTENCE_AUTO_SAVE_INTERVAL")
+        or env_defined("PERSISTENCE_SAVE_RETENTION")
+        or env_defined("PERSISTENCE_LOAD_SESSION_SAVE")
+        or env_defined("PERSISTENCE_KEEP_SESSION_SAVE")
         or env_defined("PERSISTENCE_HIVE_ID")
         or env_defined("PERSISTENCE_JSON_FILE_PATH")
     )
@@ -295,6 +298,18 @@ else:
         if env_defined("PERSISTENCE_AUTO_SAVE_INTERVAL"):
             persistence["autoSaveInterval"] = int(
                 os.environ["PERSISTENCE_AUTO_SAVE_INTERVAL"]
+            )
+        if env_defined("PERSISTENCE_SAVE_RETENTION"):
+            persistence["saveRetention"] = int(
+                os.environ["PERSISTENCE_SAVE_RETENTION"]
+            )
+        if env_defined("PERSISTENCE_LOAD_SESSION_SAVE"):
+            persistence["loadSessionSave"] = bool_str(
+                os.environ["PERSISTENCE_LOAD_SESSION_SAVE"]
+            )
+        if env_defined("PERSISTENCE_KEEP_SESSION_SAVE"):
+            persistence["keepSessionSave"] = bool_str(
+                os.environ["PERSISTENCE_KEEP_SESSION_SAVE"]
             )
         if env_defined("PERSISTENCE_HIVE_ID"):
             persistence["hiveId"] = int(os.environ["PERSISTENCE_HIVE_ID"])
