@@ -17,9 +17,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Build Image
-        run: docker build . -t docker-reforger
+        run: |
+          docker build . -t arma-reforger \
+            --build-arg SOURCE_URL="https://github.com/$GITHUB_REPOSITORY"
       - name: Save Image
-        run: docker save docker-reforger | gzip > image.tar.gz
+        run: docker save arma-reforger | gzip > image.tar.gz
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: image
@@ -58,7 +60,7 @@ jobs:
             -e GAME_MODS_AUTO_PRUNE=true \
             -e SKIP_INSTALL=true \
             -v "$workshop:/reforger/workshop" \
-            docker-reforger
+            arma-reforger
           test ! -e "$workshop/$mod_id"
 
           mkdir -p "$workshop/$mod_id"
@@ -76,7 +78,7 @@ jobs:
             -e SKIP_INSTALL=true \
             -v "$configs:/reforger/Configs" \
             -v "$workshop:/reforger/workshop" \
-            docker-reforger
+            arma-reforger
           test ! -e "$workshop/$mod_id"
       - name: Run Image
         run: >
@@ -85,7 +87,7 @@ jobs:
           -e SERVER_A2S_PORT=17777
           -e RCON_PASSWORD=PipelineTest123
           -p 17777:17777/udp
-          docker-reforger
+          arma-reforger
       # Pinned so the smoke test does not depend on whichever python3 and pip
       # the runner image happens to ship. --group needs pip 25.1 or newer.
       - name: Set up Python
@@ -121,14 +123,14 @@ jobs:
         run: docker load < image.tar.gz
       - name: Set image tags
         run: |
-          repo="${{ github.repository }}"
-          image="ghcr.io/${repo,,}"
+          owner="${{ github.repository_owner }}"
+          image="ghcr.io/${owner,,}/arma-reforger"
           latest="$image:latest"
           sha="$image:sha-${GITHUB_SHA::7}"
           echo "IMAGE_TAGS=$latest $sha" >> "$GITHUB_ENV"
       - name: Tag and Push Image
         run: |
           for tag in $IMAGE_TAGS; do
-            docker tag docker-reforger "$tag"
+            docker tag arma-reforger "$tag"
             docker push "$tag"
           done

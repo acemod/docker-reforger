@@ -10,14 +10,14 @@ An Arma Reforger dedicated server. Updates to the latest version every time it i
 
 ```sh
     docker create \
-        --name=docker-reforger \
+        --name=reforger-server \
         -p 2001:2001/udp \
         -v path/to/configs:/reforger/Configs \
         -v path/to/profiles:/home/profile \
         -v path/to/workshop:/reforger/workshop \
         -e SERVER_PUBLIC_ADDRESS="public ip" \
         -e GAME_NAME="My Docker Reforger Server" \
-        ghcr.io/angriestbird/docker-reforger:latest
+        ghcr.io/acemod/arma-reforger:latest
 ```
 
 If an admin password is not provided, one will be generated and printed to the console.
@@ -25,6 +25,8 @@ If an admin password is not provided, one will be generated and printed to the c
 ### Docker-compose
 
 Copy [the provided docker-compose.yml](docker-compose.yml) and adjust it to your needs.
+
+It pulls `ghcr.io/acemod/arma-reforger:latest` unless `REFORGER_IMAGE` says otherwise. Put that in a `.env` next to the compose file to run a fork's package or a local build instead, so you never have to edit the image line.
 
 ## Parameters
 
@@ -284,4 +286,5 @@ pip install pre-commit
 pre-commit install
 ```
 
-`scripts/build.sh` builds the image locally and tags it `docker-reforger-test`.
+`scripts/build.sh` builds the image locally and tags it `arma-reforger-test`. Set
+`REFORGER_IMAGE=arma-reforger-test` to run that build through the compose file.

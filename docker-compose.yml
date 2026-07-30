@@ -1,13 +1,14 @@
 ---
 services:
-  docker-reforger:
-    image: ghcr.io/angriestbird/docker-reforger:latest
+  arma-reforger:
+    # Override REFORGER_IMAGE in a .env to run a fork or a local build.
+    image: ${REFORGER_IMAGE:-ghcr.io/acemod/arma-reforger:latest}
     platform: linux/amd64
-    container_name: docker-reforger
+    container_name: arma-reforger
     ports:
       - "2001:2001/udp"
       - "17777:17777/udp"
-      - "19999:19999/udp" # RCON
+      - "19999:19999/udp"  # RCON
     volumes:
       - ./reforger/configs:/reforger/Configs
       - ./reforger/profile:/home/profile
