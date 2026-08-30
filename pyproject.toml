@@ -2,21 +2,20 @@
 # PEP 735 dependency groups still give pinned, tool-agnostic dev dependencies.
 [dependency-groups]
 dev = [
-    "black==26.5.1",
-    "isort==8.0.1",
-    "pylint==4.0.6",
-    "pytest==9.1.1",
-    {include-group = "smoke"},
+  "black==26.5.1",
+  "isort==8.0.1",
+  "pylint==4.0.6",
+  "pytest==9.1.1",
+  { include-group = "smoke" },
 ]
 # The publish workflow queries the running server with this. dev pulls it in so
 # pylint can resolve the a2s import in .github/scripts.
-smoke = [
-    "python-a2s==1.4.2",
-]
+smoke = ["python-a2s==1.4.2"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = [".", "src"]
+markers = ["smoke: Docker-based startup integration checks"]
 
 [tool.isort]
 profile = "black"

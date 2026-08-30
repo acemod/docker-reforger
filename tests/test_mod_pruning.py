@@ -4,8 +4,8 @@ import sys
 
 import pytest
 
-import launch_config
-from launch_config import prune_mods
+from src import launch_config
+from src.launch_config import prune_mods
 
 MOD_A = "1111111111111111"
 MOD_B = "2222222222222222"

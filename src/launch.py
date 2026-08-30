@@ -101,9 +101,13 @@ else:
 
 if bool_str(os.environ["GAME_MODS_AUTO_PRUNE"]):
     try:
-        prune_mods(CONFIG_PATH, os.environ["ARMA_WORKSHOP_DIR"])
+        pruned_paths = prune_mods(CONFIG_PATH, os.environ["ARMA_WORKSHOP_DIR"])
     except (OSError, ValueError) as prune_err:
         raise SystemExit(f"Failed to prune mods: {prune_err}") from prune_err
+    if pruned_paths:
+        print(f"Mod auto-prune removed {len(pruned_paths)} mod(s)", flush=True)
+    else:
+        print("Mod auto-prune: no unused mods to remove", flush=True)
 
 launch = [
     os.environ["ARMA_BINARY"],

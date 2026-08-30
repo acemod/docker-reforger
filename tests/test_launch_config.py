@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from launch_config import bool_str, build_config, env_defined
+from src.launch_config import bool_str, build_config, env_defined
 
 MOD_A = "1111111111111111"
 MOD_B = "2222222222222222"
@@ -27,6 +27,12 @@ def test_bool_str():
     assert not bool_str("false")
     assert not bool_str("")
     assert not bool_str("yes")
+    assert bool_str(" true ")
+    assert bool_str(" true")
+    assert bool_str("true ")
+    assert bool_str("\ttrue\n")
+    assert not bool_str(" false ")
+    assert not bool_str(" yes ")
 
 
 def test_defaults_preserved(base_config):

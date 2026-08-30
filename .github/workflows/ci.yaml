@@ -31,6 +31,7 @@ jobs:
           VALIDATE_PYTHON_PYLINT: false
 
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
@@ -46,5 +47,20 @@ jobs:
         run: isort --check-only --diff .
       - name: Lint Python
         run: pylint --recursive=y .
-      - name: Run tests
-        run: pytest -v
+      - name: Run unit and integration tests
+        run: pytest -v -m "not smoke"
+
+  smoke:
+    name: Smoke
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - name: Install dependencies
+        run: pip install --group dev
+      - name: Run Dockerfile smoke checks
+        run: pytest -v -m smoke

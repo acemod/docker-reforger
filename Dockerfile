@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 ARG SOURCE_URL=https://github.com/acemod/docker-reforger
 LABEL maintainer="ACE Team - https://github.com/acemod"
@@ -16,7 +16,7 @@ RUN apt-get update \
         ca-certificates \
         libcurl4 \
         net-tools \
-        libssl3 \
+        libssl3t64 \
         wamerican \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -24,10 +24,8 @@ RUN apt-get update \
     && wget -qO- 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar zxf - -C /steamcmd
 
 ENV STEAM_USER=""
-ENV STEAM_PASSWORD=""
 ENV STEAM_APPID="1874900"
 ENV STEAM_BRANCH="public"
-ENV STEAM_BRANCH_PASSWORD=""
 
 ENV ARMA_CONFIG=docker_generated
 ENV ARMA_PROFILE=/home/profile
@@ -45,15 +43,12 @@ ENV SERVER_A2S_PORT=17777
 
 ENV RCON_ADDRESS="0.0.0.0"
 ENV RCON_PORT=19999
-ENV RCON_PASSWORD=""
 ENV RCON_PERMISSION="admin"
 ENV RCON_MAX_CLIENTS=""
 ENV RCON_BLACKLIST=""
 ENV RCON_WHITELIST=""
 
 ENV GAME_NAME="Arma Reforger Docker Server"
-ENV GAME_PASSWORD=""
-ENV GAME_PASSWORD_ADMIN=""
 # GAME_ADMINS - comma-delimited list of identityIds and/or steamIds
 ENV GAME_ADMINS=""
 ENV GAME_SCENARIO_ID="{ECC61978EDCC2B5A}Missions/23_Campaign.conf"
@@ -97,6 +92,10 @@ ENV OPERATING_JOIN_QUEUE_MAX_SIZE=""
 
 ENV SKIP_INSTALL=false
 
+# Keep Python stdout unbuffered so prune and SteamCMD output reaches `docker logs`
+# in real time instead of waiting for the long-running server to exit.
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /reforger
 
 VOLUME /steamcmd
@@ -122,6 +121,6 @@ COPY persistence_default.json /
 # timeout has headroom for healthcheck.py probing several UDP endpoints (IPv6 +
 # IPv4) at 5s each when the server is down, so Docker does not kill the probe.
 HEALTHCHECK --interval=60s --timeout=30s --start-period=15m --retries=3 \
-    CMD python3 /app/healthcheck.py
+    CMD ["python3","/app/healthcheck.py"]
 
 CMD ["python3","/app/launch.py"]

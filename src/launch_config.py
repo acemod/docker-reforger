@@ -29,7 +29,7 @@ def env_defined(env, key):
 
 
 def bool_str(text):
-    return text.lower() == "true"
+    return text.strip().lower() == "true"
 
 
 def split_csv(text):
